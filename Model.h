@@ -82,7 +82,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include "newmat.h"
+#include "armawrap/newmat.h"
 #include "newimage/newimageall.h"
 #include "checkcudacalls.h"
 #include "cudimotoptions.h"
@@ -107,7 +107,7 @@ namespace Cudimot{
     /**
      * Vector with a default values for initializing the model parameters
      */
-    vector<T> params_init;
+    std::vector<T> params_init;
 
     /**
      * If activated, the Designer has provided default values for initializing the model parameters
@@ -131,7 +131,7 @@ namespace Cudimot{
     /**
      * Vector with the size in volumes of each Fixed Parameter
      */
-    vector<int> FixP_sizes;
+    std::vector<int> FixP_sizes;
     /////////////////////////////////////////////////////////////////
 
     
@@ -152,7 +152,7 @@ namespace Cudimot{
     /**
      * Vector with the size of each Common Fixed Parameter (without counting measurements)
      */
-    vector<int> CFP_sizes;
+    std::vector<int> CFP_sizes;
     /////////////////////////////////////////////////////////////////
     
     ///////////////////////
@@ -167,7 +167,7 @@ namespace Cudimot{
      * 2: Bounded(,max)
      * 3: Bounded(min,max)
      */
-    vector<int> bound_types;
+    std::vector<int> bound_types;
 
     /**
      * Type of the prior used in each parameter during MCMC
@@ -179,33 +179,33 @@ namespace Cudimot{
      * 4: sin()
      * 5: custom()
      */
-    vector<int> prior_types;
+    std::vector<int> prior_types;
     
     /**
      * Minimum bound
      */
-    vector<T> bounds_min;
+    std::vector<T> bounds_min;
 
     /**
      * Maximum bound
      */
-    vector<T> bounds_max;
+    std::vector<T> bounds_max;
     
 
     /**
      * First parameter of the priors (mean, alpha or fudge_factor)
      */
-    vector<T> priors_a;
+    std::vector<T> priors_a;
     
     /**
      * Second parameter of the priors (standard_deviation or beta)
      */
-    vector<T> priors_b;
+    std::vector<T> priors_b;
 
     /**
      * Vector to specify if a parameter is fixed. 0 non-fixed, 1 fixed
      */
-    vector<int> fixed;
+    std::vector<int> fixed;
     
      /**
      * Number of parameter-value combination to try in GridSearch
@@ -215,7 +215,7 @@ namespace Cudimot{
     /**
      * Ids of parameters in the grid
      */
-    vector<int> gridParams;
+    std::vector<int> gridParams;
 
     /**
      * Number of parameters in each combination of the grid
@@ -230,7 +230,7 @@ namespace Cudimot{
     /**
      * This method reads the model configuration file and sets the class attributes. File name must be provided at execution time
      */
-    void Modelparser(string default_priors_file);
+    void Modelparser(std::string default_priors_file);
 
     /**
      * This method reads the values of each parameter to try in GridSearch (if used). File name must be provided at execution time
@@ -240,13 +240,13 @@ namespace Cudimot{
      /**
      * Recursive Method for setting the grid id gridSearch used
      */
-    void set_grid(int level,int nGridParams, int &gridComb, T* comb, vector <vector <T> > &gridTmp, vector<int> gridParams,T* grid);
+    void set_grid(int level,int nGridParams, int &gridComb, T* comb, std::vector <std::vector <T> > &gridTmp, std::vector<int> gridParams,T* grid);
         
   public:
     /**
      * Constructor
      */
-    Model(string default_priors_file);
+    Model(std::string default_priors_file);
 
     /**
      * Destructor
@@ -283,37 +283,37 @@ namespace Cudimot{
     /**
      * @return Vector with the the type of each parameter bounds
      */
-    vector<int> getBound_types();
+    std::vector<int> getBound_types();
 
     /**
      * @return Vector with the minimum bound of each parameter
      */
-    vector<T> getBounds_min();
+    std::vector<T> getBounds_min();
     
     /**
      * @return Vector with the maximum bound of each parameter
      */
-    vector<T> getBounds_max();
+    std::vector<T> getBounds_max();
 
     /**
      * @return Vector with the type of each parameter prior
      */
-    vector<int> getPrior_types();
+    std::vector<int> getPrior_types();
 
     /**
      * @return Vector with the first argument of each prior
      */
-    vector<T> getPriors_a();
+    std::vector<T> getPriors_a();
     
     /**
      * @return Vector with the second argument of each prior
      */
-    vector<T> getPriors_b();
+    std::vector<T> getPriors_b();
 
     /**
      * @return Vector for specifying if a parameter is fixed or not
      */
-    vector<int> getFixed();
+    std::vector<int> getFixed();
 
     /*
      * @return Number of parameters in each combination of the grid
@@ -323,7 +323,7 @@ namespace Cudimot{
     /*
      * @return Array of paramer
      */
-    vector<int> getGridParams();
+    std::vector<int> getGridParams();
     
     /*
      * @return Number of combinations in the grid

@@ -74,6 +74,9 @@
 
 using namespace Cudimot;
 using namespace boost::filesystem;
+using namespace std;
+using namespace NEWMAT;
+using MISCMATHS::num2str;
 
 void save_part(Matrix data, string path, string name, int idpart){
   int nvox = data.Ncols();
@@ -82,7 +85,7 @@ void save_part(Matrix data, string path, string name, int idpart){
   string file_name;
   file_name = path+num2str(idpart)+"/"+name;
   
-  ofstream out;
+  std::ofstream out;
   out.open(file_name.data(), ios::out | ios::binary);
   out.write((char*)&nvox,4); // number of voxels
   out.write((char*)&nmeas,4); // number of measurements
@@ -169,7 +172,7 @@ int main(int argc, char *argv[]){
   int nparams=model.getNparams();
   if (opts.init_params.set()){
     string filename(opts.init_params.value());
-    ifstream file(filename.data());
+    std::ifstream file(filename.data());
     if (file.is_open()){
       string line;
       int id_param=-1;
@@ -272,7 +275,7 @@ int main(int argc, char *argv[]){
   
   if (nFixP){
     string filename(opts.FixP.value());
-    ifstream file(filename.data());
+    std::ifstream file(filename.data());
     if (file.is_open()){
       string line;
       int id_FP=-1;

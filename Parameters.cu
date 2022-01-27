@@ -66,7 +66,12 @@
     University, to negotiate a licence. Contact details are:
     fsl@innovation.ox.ac.uk quoting Reference Project 9564, FSL.*/
 
+#include <miscmaths/miscmaths.h>
+
 #include "Parameters.h"
+
+using namespace std;
+using namespace NEWMAT;
 
 namespace Cudimot{
   
@@ -103,9 +108,9 @@ namespace Cudimot{
 	string name_file;
 	name_file.append(opts.partsdir.value());
 	name_file.append("/part_");
-	name_file.append(num2str(opts.idPart.value()));
+	name_file.append(MISCMATHS::num2str(opts.idPart.value()));
 	name_file.append("/ParamInit_");
-	name_file.append(num2str(idParam));
+	name_file.append(MISCMATHS::num2str(idParam));
 	
 	ifstream in;
 	long nbytes;
@@ -160,7 +165,7 @@ namespace Cudimot{
        	  if (!line.empty()){ // if is empty, ignore the line
 	    // Read file with values
 	    Matrix values;
-	    values=read_ascii_matrix(line);
+	    values=MISCMATHS::read_ascii_matrix(line.c_str());
 	    int param_size = model.CFP_sizes[nCFP_set];
 	    if(values.Nrows()!=param_size){
 	      cerr << "CUDIMOT Error: Common Fixed Parameters number " << nCFP_set << " and file " << line << " do not match the dimensions specified for this model" << endl;
@@ -216,9 +221,9 @@ namespace Cudimot{
 	string name_file;
 	name_file.append(opts.partsdir.value());
 	name_file.append("/part_");
-	name_file.append(num2str(opts.idPart.value()));
+	name_file.append(MISCMATHS::num2str(opts.idPart.value()));
 	name_file.append("/FixParam_");
-	name_file.append(num2str(FP));
+	name_file.append(MISCMATHS::num2str(FP));
 
 	ifstream in;
 	long nbytes;
@@ -465,8 +470,8 @@ namespace Cudimot{
       string file_name;
       file_name.append(opts.partsdir.value());
       file_name.append("/part_");
-      file_name.append(num2str(opts.idPart.value()));
-      file_name.append("/Param_"+num2str(par)+"_samples");
+      file_name.append(MISCMATHS::num2str(opts.idPart.value()));
+      file_name.append("/Param_"+MISCMATHS::num2str(par)+"_samples");
       ofstream out;
       out.open(file_name.data(), ios::out | ios::binary);
       out.write((char*)&nvox,4); // number of voxels
@@ -490,7 +495,7 @@ namespace Cudimot{
       string file_name;
       file_name.append(opts.partsdir.value());
       file_name.append("/part_");
-      file_name.append(num2str(opts.idPart.value()));
+      file_name.append(MISCMATHS::num2str(opts.idPart.value()));
       file_name.append("/Tau_samples");
       ofstream out;
       out.open(file_name.data(), ios::out | ios::binary);
@@ -514,7 +519,7 @@ namespace Cudimot{
       string file_name;
       file_name.append(opts.partsdir.value());
       file_name.append("/part_");
-      file_name.append(num2str(opts.idPart.value()));
+      file_name.append(MISCMATHS::num2str(opts.idPart.value()));
       file_name.append("/PredictedSignal");
       ofstream out;
       out.open(file_name.data(), ios::out | ios::binary);
@@ -536,7 +541,7 @@ namespace Cudimot{
       string file_name;
       file_name.append(opts.partsdir.value());
       file_name.append("/part_");
-      file_name.append(num2str(opts.idPart.value()));
+      file_name.append(MISCMATHS::num2str(opts.idPart.value()));
       file_name.append("/BIC");
       ofstream out;
       out.open(file_name.data(), ios::out | ios::binary);
@@ -557,7 +562,7 @@ namespace Cudimot{
       file_name.clear();
       file_name.append(opts.partsdir.value());
       file_name.append("/part_");
-      file_name.append(num2str(opts.idPart.value()));
+      file_name.append(MISCMATHS::num2str(opts.idPart.value()));
       file_name.append("/AIC");
       out.open(file_name.data(), ios::out | ios::binary);
       out.write((char*)&nvox,4); // number of voxels

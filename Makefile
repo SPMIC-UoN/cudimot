@@ -8,7 +8,7 @@ $(error Error: FSLDEVDIR has not been set)
 endif
 
 NVCC = ${CUDA}/bin/nvcc
-DIR_objs=./objs
+DIR_objs=objs
 
 MAX_REGISTERS= -maxrregcount 64
 TYPE := $(shell cat mymodels/${modelname}/modelparameters.h | grep MyType | cut -f 2 -d ' ')
@@ -39,18 +39,21 @@ SM_61 = -gencode arch=compute_61,code=sm_61
 SM_70 = -gencode arch=compute_70,code=sm_70
 
 #for Realease
-GPU_CARDs = $(SM_30) $(SM_35) $(SM_37) $(SM_50) $(SM_52) 
+#GPU_CARDs = $(SM_35) $(SM_37) $(SM_50) $(SM_52) 
 #$(SM_60) $(SM_61)
 
 #for FMRIB
 #GPU_CARDs = $(SM_37) $(SM_35)
+
+# For testing
+CPU_CARDs = $(SM_52)
 
 PROJNAME = CUDIMOT
 
 USRINCFLAGS = -I${INC_NEWMAT} -I${INC_NEWRAN} -I${INC_CPROB} -I${INC_PROB} -I${INC_BOOST} -I${INC_ZLIB} -I$(MODELPATH) 
 USRLDFLAGS = -L${LIB_NEWMAT} -L${LIB_NEWRAN} -L${LIB_CPROB} -L${LIB_PROB} -L${LIB_ZLIB}
 
-DLIBS = -lwarpfns -lbasisfield -lmeshclass -lnewimage -lutils -lmiscmaths -lnewmat -lnewran -lNewNifti -lznz -lcprob -lprob -lm -lz
+DLIBS = -lfsl-warpfns -lfsl-basisfield -lfsl-meshclass -lfsl-newimage -lfsl-miscmaths -lfsl-utils -lfsl-newran -lfsl-NewNifti -lfsl-znz -lfsl-cprob -lm -lz
 
 CUDIMOT=$(DIR_objs)/${modelname}
 
@@ -80,23 +83,23 @@ makedir:
 	mkdir -p $(FSLDEVDIR)/bin
 	mkdir -p $(DIR_objs)
 
-all: 	cleanall makedir ${XFILES}
+all: makedir ${XFILES}
 
 $(DIR_objs)/cart2spherical: 
-	${CXX} ${CXXFLAGS} ${LDFLAGS} -o $@ utils/cart2spherical.cc ${DLIBS} 
+	${CXX} -o $@ utils/cart2spherical.cc ${CXXFLAGS} ${LDFLAGS} ${DLIBS} 
 $(DIR_objs)/getFanningOrientation: 
-	${CXX} ${CXXFLAGS} ${LDFLAGS} -o $@ utils/getFanningOrientation.cc ${DLIBS} 
+	${CXX} -o $@ utils/getFanningOrientation.cc ${CXXFLAGS} ${LDFLAGS} ${DLIBS} 
 $(DIR_objs)/initialise_Psi: 
-	${CXX} ${CXXFLAGS} ${LDFLAGS} -o $@ utils/initialise_Psi.cc ${DLIBS} 
+	${CXX} -o $@ utils/initialise_Psi.cc ${CXXFLAGS} ${LDFLAGS} ${DLIBS} 
 
 $(DIR_objs)/cudimotoptions.o:
 	${CXX} ${CXXFLAGS} ${LDFLAGS} -c -o $@ cudimotoptions.cc ${DLIBS} 
 
 $(DIR_objs)/split_parts_${modelname}: $(DIR_objs)/cudimotoptions.o $(DIR_objs)/link_cudimot_gpu.o
-	${CXX} ${CXXFLAGS} $(USRINCFLAGS) ${LDFLAGS} -o $@ $(DIR_objs)/cudimotoptions.o $(DIR_objs)/link_cudimot_gpu.o split_parts.cc ${DLIBS} $(CUDIMOT_CUDA_OBJS) -lcudart -lboost_filesystem -lboost_system -L${CUDA}/lib64 -L${CUDA}/lib
+	${CXX} ${CXXFLAGS} $(USRINCFLAGS) ${LDFLAGS} -o $@ $(DIR_objs)/cudimotoptions.o $(DIR_objs)/link_cudimot_gpu.o split_parts.cc $(CUDIMOT_CUDA_OBJS) ${DLIBS} -lopenblas -lcudart -lboost_filesystem -lboost_system -L${CUDA}/lib64 -L${CUDA}/lib
 
 $(DIR_objs)/merge_parts_${modelname}: $(DIR_objs)/cudimotoptions.o $(DIR_objs)/link_cudimot_gpu.o
-	${CXX} ${CXXFLAGS} ${LDFLAGS} -o $@ $(DIR_objs)/cudimotoptions.o $(DIR_objs)/link_cudimot_gpu.o merge_parts.cc ${DLIBS} $(CUDIMOT_CUDA_OBJS) -lcudart -lboost_filesystem -lboost_system -L${CUDA}/lib64 -L${CUDA}/lib
+	${CXX} ${CXXFLAGS} ${LDFLAGS} -o $@ $(DIR_objs)/cudimotoptions.o $(DIR_objs)/link_cudimot_gpu.o merge_parts.cc $(CUDIMOT_CUDA_OBJS) ${DLIBS} -lopenblas -lcudart -lboost_filesystem -lboost_system -L${CUDA}/lib64 -L${CUDA}/lib
 
 $(DIR_objs)/init_gpu.o: 
 		$(NVCC) $(GPU_CARDs) $(NVCC_FLAGS) -o $@ init_gpu.cu $(CUDA_INC)
@@ -135,7 +138,7 @@ $(DIR_objs)/cudimot.o:
 		$(NVCC) $(GPU_CARDs) $(USRINCFLAGS) $(NVCC_FLAGS) -o $@ cudimot.cc $(CUDA_INC)
 
 ${CUDIMOT}:	${CUDIMOT_OBJS}
-		${CXX} ${CXXFLAGS} ${LDFLAGS} -o $(DIR_objs)/${modelname} ${CUDIMOT_OBJS} $(CUDIMOT_CUDA_OBJS) ${DLIBS} -lcudart -L${CUDA}/lib64 -L${CUDA}/lib
+		${CXX} ${CXXFLAGS} ${LDFLAGS} -o $(DIR_objs)/${modelname} ${CUDIMOT_OBJS} $(CUDIMOT_CUDA_OBJS) ${DLIBS} -lopenblas -lcudart -L${CUDA}/lib64 -L${CUDA}/lib
 		./generate_wrapper.sh
 
 $(DIR_objs)/testFunctions_${modelname}: 

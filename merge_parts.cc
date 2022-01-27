@@ -68,7 +68,7 @@
 
 #include <sys/stat.h>
 #include "boost/filesystem.hpp"
-#include "newmat.h"
+#include "armawrap/newmat.h"
 #include "newimage/newimageall.h"
 #include "cudimotoptions.h"
 #include "dMRI_Data.h"
@@ -76,6 +76,9 @@
     
 using namespace Cudimot;
 using namespace boost::filesystem;
+using namespace std;
+using namespace NEWMAT;
+using MISCMATHS::num2str;
 
 void join_Parts(NEWIMAGE::volume<MyType> mask, string directory_in, string name_in, string name_out, int nsamples, int nParts, float max, float min){
     
@@ -90,7 +93,7 @@ void join_Parts(NEWIMAGE::volume<MyType> mask, string directory_in, string name_
     file_name += "/"; 
     file_name += name_in; 
     
-    ifstream in;
+    std::ifstream in;
     long nbytes_file;
     int nvox_file,nsamples_file;
     in.open(file_name.data(), ios::in | ios::binary);

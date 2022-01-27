@@ -80,7 +80,7 @@
     fsl@innovation.ox.ac.uk quoting Reference Project 9564, FSL.*/
  
 #include <vector>
-#include "newmat.h"
+#include "armawrap/newmat.h"
 #include "newimage/newimageall.h"
 #include "checkcudacalls.h"
 #include "gridOptions.h"
@@ -124,7 +124,7 @@ namespace Cudimot{
     /**
      * Measurements for all the voxels of the data
      */
-    Matrix dataM;
+    NEWMAT::Matrix dataM;
 
     /**
      * The number of voxels in a part can be a non-multiple of voxels per block, so some threads could access to non-allocated memory. We use the closest upper multiple. The added voxels will be ignored.

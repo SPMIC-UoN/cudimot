@@ -70,6 +70,8 @@
 
 #include "Model.h"
 
+using namespace std;
+
 namespace Cudimot{
   
   // This method reads the list of parameters from a file. File must be provided at execution time.

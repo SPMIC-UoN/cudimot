@@ -6,6 +6,12 @@
 #define MINSTEP 1e-6
 #define nonzerosign(a) ((a)<0?-1:1)
 
+MACRO T Predicted_Signal(
+			 int npar, // Number of Parameters to estimate
+			 T* P, 	// Estimated parameters
+			 T* CFP, // Fixed Parameters common to all the voxels
+			 T* FixP); // Fixed Parameters for each voxel
+
 MACRO T numerical(
 		     int idpar, 
 		     T* P, 	

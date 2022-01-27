@@ -88,12 +88,12 @@ namespace Cudimot {
     ~cudimotOptions() { delete gopt; }
     
     Option<bool> help;
-    Option<string> logdir;
+    Option<std::string> logdir;
     Option<bool> forcedir;
-    Option<string> datafile;
-    Option<string> maskfile;
-    Option<string> partsdir;
-    Option<string> outputdir;
+    Option<std::string> datafile;
+    Option<std::string> maskfile;
+    Option<std::string> partsdir;
+    Option<std::string> outputdir;
     Option<int> idPart;
     Option<int> nParts;
     Option<int> njumps;
@@ -105,18 +105,18 @@ namespace Cudimot {
     Option<bool> no_LevMar;
     Option<bool> no_Marquardt;
     Option<int> iterLevMar;
-    Option<string> gridSearch;
+    Option<std::string> gridSearch;
     Option<bool> runMCMC;
     Option<bool> rician;
     Option<bool> keepTmp;
     Option<bool> getPredictedSignal;
-    Option<string> CFP;
-    Option<string> FixP;
-    Option<string> fixed;
-    Option<string> init_params;
-    Option<string> debug;
+    Option<std::string> CFP;
+    Option<std::string> FixP;
+    Option<std::string> fixed;
+    Option<std::string> init_params;
+    Option<std::string> debug;
     Option<bool> BIC_AIC;
-    FmribOption<string> priorsfile;
+    FmribOption<std::string> priorsfile;
     
     void parse_command_line(int argc, char** argv,  Log& logger);
   
@@ -138,95 +138,95 @@ namespace Cudimot {
   }
   
   inline cudimotOptions::cudimotOptions():
-	help(string("-h,--help"), false,
-		string("\tDisplay this message"),
+	help(std::string("-h,--help"), false,
+		std::string("\tDisplay this message"),
 		false, no_argument),
-	logdir(string("--ld,--logdir"), string("logdir"),
-		string("\tLog directory (default is logdir)"),
+	logdir(std::string("--ld,--logdir"), std::string("logdir"),
+		std::string("\tLog directory (default is logdir)"),
 		false, requires_argument),
-	forcedir(string("--forcedir"),false,
-		string("\tUse the actual directory name given - i.e. don't add + to make a new directory"),
+	forcedir(std::string("--forcedir"),false,
+		std::string("\tUse the actual directory name given - i.e. don't add + to make a new directory"),
 		false,no_argument),
-	datafile(string("--data"), string("data"),
-		string("\t\tData file"),
+	datafile(std::string("--data"), std::string("data"),
+		std::string("\t\tData file"),
 		true, requires_argument),  
-	maskfile(string("--maskfile"), string("nodif_brain_mask"),
-		string("\tMask file"),
+	maskfile(std::string("--maskfile"), std::string("nodif_brain_mask"),
+		std::string("\tMask file"),
 		true, requires_argument),
-	partsdir(string("--partsdir"), string(""),
-		string("\tDirectory where different parts of the data/results will be stored"),
+	partsdir(std::string("--partsdir"), std::string(""),
+		std::string("\tDirectory where different parts of the data/results will be stored"),
 		true, requires_argument),
-	outputdir(string("--outputdir"), string(""),
-		string("\tDirectory where to write the output files"),
+	outputdir(std::string("--outputdir"), std::string(""),
+		std::string("\tDirectory where to write the output files"),
 		true, requires_argument),
-	idPart(string("--idPart"),0,
-		string("\tNumber of the part of the dataset to process [0..N-1]"),
+	idPart(std::string("--idPart"),0,
+		std::string("\tNumber of the part of the dataset to process [0..N-1]"),
 		true, requires_argument),
-	nParts(string("--nParts"),0,
-		string("\tTotal number of parts of the dataset [1..N]"),
+	nParts(std::string("--nParts"),0,
+		std::string("\tTotal number of parts of the dataset [1..N]"),
 		true, requires_argument),
-	njumps(string("--nj,--njumps"),1250,
-		string("\tNum of jumps to be made by MCMC (default is 1250)"),
+	njumps(std::string("--nj,--njumps"),1250,
+		std::string("\tNum of jumps to be made by MCMC (default is 1250)"),
 		false,requires_argument),
-	nburn(string("--bi,--burnin"),1000,
-		string("\tTotal num of jumps at start of MCMC to be discarded (default is 1000)"),
+	nburn(std::string("--bi,--burnin"),1000,
+		std::string("\tTotal num of jumps at start of MCMC to be discarded (default is 1000)"),
 		false,requires_argument),
-	sampleevery(string("--se,--sampleevery"),25,
-		string("\tNum of jumps for each sample (MCMC) (default is 25)"),
+	sampleevery(std::string("--se,--sampleevery"),25,
+		std::string("\tNum of jumps for each sample (MCMC) (default is 25)"),
 		false,requires_argument),
-	updateproposalevery(string("--upe,--updateproposalevery"),40,
-		string("Num of jumps for each update to the proposal density std (MCMC) (default is 40)"),
+	updateproposalevery(std::string("--upe,--updateproposalevery"),40,
+		std::string("Num of jumps for each update to the proposal density std (MCMC) (default is 40)"),
 		false,requires_argument),
-	no_updateproposal(string("--no_updateproposal"),false,
-		string("Do not update the proposal density std during the recording step of MCMC"),
+	no_updateproposal(std::string("--no_updateproposal"),false,
+		std::string("Do not update the proposal density std during the recording step of MCMC"),
 		false,no_argument),
-	seed(string("--seed"),8219,
-		string("\t\tSeed for pseudo random number generator"),
+	seed(std::string("--seed"),8219,
+		std::string("\t\tSeed for pseudo random number generator"),
 		false,requires_argument),
-	no_LevMar(string("--no_LevMar"),false,
-		string("\tDo not run Levenberg-Marquardt algorithm"),
+	no_LevMar(std::string("--no_LevMar"),false,
+		std::string("\tDo not run Levenberg-Marquardt algorithm"),
 		false, no_argument),
-	no_Marquardt(string("--no_Marquardt"),false,
-		string("\tDo not use Marquardt contribution in Levenberg algorithm"),
+	no_Marquardt(std::string("--no_Marquardt"),false,
+		std::string("\tDo not use Marquardt contribution in Levenberg algorithm"),
 		false, no_argument),
-	iterLevMar(string("--iterLevMar"),200,
-		string("\tMaximum number of iterations in Levenberg(-Marquardt) algorithm (default is 200)"),
+	iterLevMar(std::string("--iterLevMar"),200,
+		std::string("\tMaximum number of iterations in Levenberg(-Marquardt) algorithm (default is 200)"),
 		false,requires_argument),
-	gridSearch(string("--gridSearch"),string(""),
-		string("\tRun gridSearch algorithm using the values specified in a file"),
+	gridSearch(std::string("--gridSearch"),std::string(""),
+		std::string("\tRun gridSearch algorithm using the values specified in a file"),
 		false,requires_argument),
-   	runMCMC(string("--runMCMC"),false,
-		string("\tRun MCMC algorithm and get distribution of estimates"),
+   	runMCMC(std::string("--runMCMC"),false,
+		std::string("\tRun MCMC algorithm and get distribution of estimates"),
 		false,no_argument),
-	rician(string("--rician"),false,
-		string("\tUse Rician noise modelling in MCMC"),
+	rician(std::string("--rician"),false,
+		std::string("\tUse Rician noise modelling in MCMC"),
 		false,no_argument),
-        keepTmp(string("--keepTmp"),false,
-		string("\tDo not remove the temporal directory created for storing the data/results parts"),
+        keepTmp(std::string("--keepTmp"),false,
+		std::string("\tDo not remove the temporal directory created for storing the data/results parts"),
 		false,no_argument),
-	getPredictedSignal(string("--getPredictedSignal"),false,
-		string("Save the predicted signal by the model at the end"),
+	getPredictedSignal(std::string("--getPredictedSignal"),false,
+		std::string("Save the predicted signal by the model at the end"),
 		false,no_argument),
-	CFP(string("--CFP"), string(""),
-		string("\t\tFile with a list of ASCCI files for specifying the common (to all voxels) fixed parameters of the model"),
+	CFP(std::string("--CFP"), std::string(""),
+		std::string("\t\tFile with a list of ASCCI files for specifying the common (to all voxels) fixed parameters of the model"),
 		false, requires_argument),  
-	FixP(string("--FixP"), string(""),
-		string("\t\tFile with a list of NIfTI files for specifying the fixed parameters of the model"),
+	FixP(std::string("--FixP"), std::string(""),
+		std::string("\t\tFile with a list of NIfTI files for specifying the fixed parameters of the model"),
 		false, requires_argument), 
-	fixed(string("--fixed"), string(""),
-		string("\t\tList of the Ids of the fixed parameters separated by commas. For example: --fixed=2,4"),
+	fixed(std::string("--fixed"), std::string(""),
+		std::string("\t\tList of the Ids of the fixed parameters separated by commas. For example: --fixed=2,4"),
 		false, requires_argument), 
-	init_params(string("--init_params"), string(""),
-		string("\tFile with a list of NIfTI files for the initialization of the model parameters"),
+	init_params(std::string("--init_params"), std::string(""),
+		std::string("\tFile with a list of NIfTI files for the initialization of the model parameters"),
 		false, requires_argument),
-        debug(string("--debug"), string(""),
-		string("\t\tSpecify a voxel for debugging. Some variables at certain steps of the algorithms will be printed (use few iterations)"),
+        debug(std::string("--debug"), std::string(""),
+		std::string("\t\tSpecify a voxel for debugging. Some variables at certain steps of the algorithms will be printed (use few iterations)"),
 		false, requires_argument),
-	BIC_AIC(string("--BIC_AIC"), false,
-	        string("\tCalculate Bayesian and Akaike Information Criteria at the end"),
+	BIC_AIC(std::string("--BIC_AIC"), false,
+	        std::string("\tCalculate Bayesian and Akaike Information Criteria at the end"),
 		false, no_argument),
-	priorsfile(string("--priors"), string(""),
-		string("\tFile with parameters information (initialization, bounds and priors)"),
+	priorsfile(std::string("--priors"), std::string(""),
+		std::string("\tFile with parameters information (initialization, bounds and priors)"),
 		false, requires_argument),
 
    options("CUDIMOT","YourModelName --help (for list of options)\n")
@@ -265,10 +265,10 @@ namespace Cudimot {
      }
      catch(X_OptionError& e) {
        options.usage();
-       cerr << endl << e.what() << endl;
+       std::cerr << std::endl << e.what() << std::endl;
      } 
      catch(std::exception &e) {
-       cerr << e.what() << endl;
+       std::cerr << e.what() << std::endl;
      }    
      
    }
