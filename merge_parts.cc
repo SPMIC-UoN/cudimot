@@ -68,7 +68,7 @@
 
 #include <sys/stat.h>
 #include "boost/filesystem.hpp"
-#include "armawrap/newmat.h"
+#include "newmat.h"
 #include "newimage/newimageall.h"
 #include "cudimotoptions.h"
 #include "dMRI_Data.h"

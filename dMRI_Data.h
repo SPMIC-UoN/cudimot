@@ -80,7 +80,7 @@
     fsl@innovation.ox.ac.uk quoting Reference Project 9564, FSL.*/
  
 #include <vector>
-#include "armawrap/newmat.h"
+#include "newmat.h"
 #include "newimage/newimageall.h"
 #include "checkcudacalls.h"
 #include "gridOptions.h"

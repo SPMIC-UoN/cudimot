@@ -82,7 +82,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include "armawrap/newmat.h"
+#include "newmat.h"
 #include "newimage/newimageall.h"
 #include "checkcudacalls.h"
 #include "cudimotoptions.h"
