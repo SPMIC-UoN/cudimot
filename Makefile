@@ -50,10 +50,17 @@ CPU_CARDs = $(SM_52)
 
 PROJNAME = CUDIMOT
 
-USRINCFLAGS = -I${INC_NEWMAT} -I${INC_NEWRAN} -I${INC_CPROB} -I${INC_PROB} -I${INC_BOOST} -I${INC_ZLIB} -I$(MODELPATH) 
-USRLDFLAGS = -L${LIB_NEWMAT} -L${LIB_NEWRAN} -L${LIB_CPROB} -L${LIB_PROB} -L${LIB_ZLIB}
+# Handle compilation against FSL 6.0.5- or 6.0.6+
+ifdef FSL_GE_606
+  # FSL 6.0.6 or later
+  INC_NEWMAT=$(FSLDIR)/include/armawrap
+  LPREF=fsl-
+endif
 
-DLIBS = -lfsl-warpfns -lfsl-basisfield -lfsl-meshclass -lfsl-newimage -lfsl-miscmaths -lfsl-utils -lfsl-newran -lfsl-NewNifti -lfsl-znz -lfsl-cprob -lm -lz
+USRINCFLAGS = -I$(MODELPATH) -I${INC_NEWMAT} -I${INC_NEWRAN} -I${INC_CPROB} -I${INC_PROB} -I${INC_BOOST} -I${INC_ZLIB}
+USRLDFLAGS =  -L${LIB_NEWMAT} -L${LIB_NEWRAN} -L${LIB_CPROB} -L${LIB_PROB} -L${LIB_ZLIB}
+
+DLIBS = -l$(LPREF)warpfns -l$(LPREF)basisfield -l$(LPREF)meshclass -l$(LPREF)newimage -l$(LPREF)miscmaths -l$(LPREF)utils -l$(LPREF)newran -l$(LPREF)NewNifti -l$(LPREF)znz -l$(LPREF)cprob -lm -lz
 
 CUDIMOT=$(DIR_objs)/${modelname}
 
