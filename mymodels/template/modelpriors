@@ -1,0 +1,22 @@
+// You can use some default parameters for initialization. They will be used only if the user does not provide initialization volumes 
+// For instance, for Ball & 1-Stick model: S0, d, f, th ph
+P_init[1000,0.0015,0.6,1.5,1.5]
+
+// You can provide three kind of bounds for each parameter:
+// Lower and Upper bounds: bounds[number_parameter]=(lower,upper)
+// Only lower bound: bounds[number_parameter]=(lower,)
+// Only upper bound: bounds[number_parameter]=(,upper)
+// For instance:
+
+bounds[0]=(1e-9,)
+bounds[1]=(1e-9,0.01)
+bounds[2]=(0.01,1)
+bounds[3]=(-100,100)
+bounds[4]=(-100,100)
+
+// You can provide four kind of priors for each parameter:
+// prior[number_parameter]=Gaussian(mean,variance)
+// prior[number_parameter]=Gamma(alpha,beta)
+// prior[number_parameter]=ARD(fudge_factor)
+// prior[number_parameter]=sin()
+// prior[number_parameter]=custom()

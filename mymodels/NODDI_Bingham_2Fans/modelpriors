@@ -1,0 +1,27 @@
+// For initialisation
+// fiso, 
+// fFan2, 
+// fintra1, kappa1, beta1, th1, ph1, psi1
+// fintra2, kappa2, beta2, th2, ph2, psi2
+P_init[0.1,0.5,0.8,5,2,1.5,1.5,1.5,0.8,5,2,1.5,1.5,1.5]
+
+// Priors:
+bounds[0]=(0,1)
+bounds[1]=(0,0.5)
+bounds[2]=(0,1)
+bounds[3]=(0.01,64)
+bounds[4]=(0,32)
+bounds[5]=(-100,100)
+bounds[6]=(-100,100)
+bounds[7]=(-100,100)
+bounds[8]=(0,1)
+bounds[9]=(0.01,64)
+bounds[10]=(0,32)
+bounds[11]=(-100,100)
+bounds[12]=(-100,100)
+bounds[13]=(-100,100)
+
+priors[1]=ARD(10)
+priors[5]=sin()
+priors[11]=sin()
+

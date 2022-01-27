@@ -1,0 +1,20 @@
+// S0, d, d_std, f1,th1,ph1, f2,th2,ph2
+P_init[1000,0.002,0.002,0.6,1.5,1.5,0.2,1.5,1.5]
+
+// Priors:
+bounds[0]=(0,10000)
+bounds[1]=(0,0.005)
+bounds[2]=(0,0.01)
+bounds[3]=(0,1)
+bounds[4]=(-100,100)
+bounds[5]=(-100,100)
+bounds[6]=(0,1)
+bounds[7]=(-100,100)
+bounds[8]=(-100,100)
+
+prior[2]=ARD(1.0)
+prior[4]=sin()
+prior[6]=ARD(1.0)
+prior[7]=sin()
+
+

@@ -1,0 +1,16 @@
+// [d, faniso, k1, k2, th, ph, psi]
+
+P_init[0.002,0.5,6,2,1.5,1.5,1.5]
+
+// Priors:
+bounds[0]=(0,0.01)
+bounds[1]=(0,1)
+bounds[2]=(0,64)
+bounds[3]=(0,64)
+bounds[4]=(-10000,10000)
+bounds[5]=(-10000,10000)
+bounds[6]=(-100,100)
+
+prior[0]=Gaussian(0.002,0.0001)
+prior[4]=sin()
+

@@ -1,0 +1,16 @@
+// You can use some default parameters for initialization. They will be used only if the user does not provide initialization volumes 
+P_init[1,1]
+
+// You can provide three kind of bounds for each parameter:
+// Lower and Upper bounds: bounds[number_parameter]=(lower,upper)
+// Only lower bound: bounds[number_parameter]=(lower,)
+// Only upper bound: bounds[number_parameter]=(,upper)
+
+// And priors:
+// prior[number_parameter]=Gaussian(mean,variance)
+// prior[number_parameter]=Gamma(alpha,beta)
+// prior[number_parameter]=ARD(fudge_factor)
+// prior[number_parameter]=sin()
+// prior[number_parameter]=custom()
+
+

@@ -1,0 +1,15 @@
+// For initialisation
+// fiso, fintra, kappa, beta, th, ph, psi
+P_init[0.2,0.7,5,2,1.5,1.5,1.5]
+
+// Priors:
+bounds[0]=(0,1)
+bounds[1]=(0,1)
+bounds[2]=(0.1,64)
+bounds[3]=(0.01,32)
+bounds[4]=(-10000,10000)
+bounds[5]=(-10000,10000)
+bounds[6]=(-100,100)
+
+priors[4]=sin()
+

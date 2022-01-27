@@ -1,0 +1,15 @@
+// For initialization
+// S0, d, f, th ph
+P_init[1,0.001,0.6,1.5,1.5]
+
+
+// Priors:
+bounds[0]=(1e-9,)
+bounds[1]=(1e-9,0.01)
+bounds[2]=(0.01,1)
+bounds[3]=(-100,100)
+bounds[4]=(-100,100)
+
+prior[3]=sin()
+
+

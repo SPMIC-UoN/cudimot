@@ -1,0 +1,9 @@
+// For initialization
+// S0,Dxx,Dxy,Dxz,Dyy,Dyz,Dzz
+P_init[2000,0.001,0.001,0.001,0.001,0.001,0.001]
+
+// Priors:
+bounds[0]=(0.1,10000)
+bounds[1]=(0,0.01)
+bounds[4]=(0,0.01)
+bounds[6]=(0,0.01)
