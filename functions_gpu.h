@@ -45,33 +45,55 @@ FUNC double pow_gpu(double x1, double x2){return pow(x1,x2);}
 FUNC double shfl_down(double x, uint s){
   int lo, hi;
   asm volatile( "mov.b64 {%0,%1}, %2;" : "=r"(lo), "=r"(hi) : "d"(x) );
+  #ifdef CUDA_LT9
   lo = __shfl_down(lo,s);
   hi = __shfl_down(hi,s);
+  #else
+  lo = __shfl_down_sync(0xFFFFFFFF, lo,s);
+  hi = __shfl_down_sync(0xFFFFFFFF, hi,s);
+  #endif
   asm volatile( "mov.b64 %0, {%1,%2};" : "=d"(x) : "r"(lo), "r"(hi) );
   return x;
 }
 
 // shfl_down function for single precision
 FUNC float shfl_down(float x, uint s){
+  #ifdef CUDA_LT9
   return __shfl_down(x,s);
+  #else
+  return __shfl_down_sync(0xFFFFFFFF, x,s);
+  #endif
 } 
 
 // shfl function for double precision
 FUNC double shfl(double x, int s) {
   int lo, hi;
   asm volatile( "mov.b64 {%0,%1}, %2;" : "=r"(lo), "=r"(hi) : "d"(x) );
+  #ifdef CUDA_LT9
   lo = __shfl(lo,s);
   hi = __shfl(hi,s);
+  #else
+  lo = __shfl_sync(0xFFFFFFFF, lo,s);
+  hi = __shfl_sync(0xFFFFFFFF, hi,s);
+  #endif
   asm volatile( "mov.b64 %0, {%1,%2};" : "=d"(x) : "r"(lo), "r"(hi) );
   return x;
 }
 
 // shfl function for single precision
 FUNC float shfl(float x, uint s){
+  #ifdef CUDA_LT9
   return __shfl(x,s);
+  #else
+  return __shfl_sync(0xFFFFFFFF, x,s);
+  #endif
 } 
 
 // shfl function for int
 FUNC int shfl(int x, int s){
+  #ifdef CUDA_LT9
   return __shfl(x,s);
+  #else
+  return __shfl_sync(0xFFFFFFFF, x,s);
+  #endif
 } 

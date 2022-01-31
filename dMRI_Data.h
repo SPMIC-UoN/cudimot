@@ -124,7 +124,7 @@ namespace Cudimot{
     /**
      * Measurements for all the voxels of the data
      */
-    Matrix dataM;
+    NEWMAT::Matrix dataM;
 
     /**
      * The number of voxels in a part can be a non-multiple of voxels per block, so some threads could access to non-allocated memory. We use the closest upper multiple. The added voxels will be ignored.

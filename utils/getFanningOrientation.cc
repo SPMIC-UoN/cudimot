@@ -69,6 +69,7 @@
 #include <vector>
 using namespace std;
 using namespace NEWIMAGE;
+using namespace NEWMAT;
 
 
 int main ( int argc, char **argv ){

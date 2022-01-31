@@ -72,6 +72,8 @@
 #include "macro_numerical.h"
 #include "modelfunctions.h"
 
+using namespace std;
+
 namespace Cudimot{
 
 #define VOXELS_BLOCK 8
@@ -215,7 +217,7 @@ namespace Cudimot{
 	    printf("Initial Parameter[%i]: %f\n",i,params[i]);
 	  }
 	  for(int i=0;i<CFP_Tsize;i++){
-	    printf("Commonn Fixed Params[%i]: ",i);
+	    printf("Common Fixed Params[%i]: ",i);
 	    for(int j=0;j<nmeas;j++){
 	      printf("%f ",CFP_global[j*CFP_Tsize+i]);
 	    }
@@ -225,7 +227,7 @@ namespace Cudimot{
 	  for(int i=0;i< FixP_Tsize;i++){
 	    printf("%f, ",FixP[i]);
 	  }
-	  printf("\n--------------------------------------------------------\n",idVOX);  
+	  printf("\n--------------------------------------------------------\n");  
 	}
       }
     }

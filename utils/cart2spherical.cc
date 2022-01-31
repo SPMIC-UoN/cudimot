@@ -73,6 +73,8 @@
 #include "newimage/newimageall.h"
 
 using namespace std;
+using NEWMAT::ColumnVector;
+using MISCMATHS::cart2sph;
 
 int main (int argc, char* argv[]){
   cout << "Cartesian coordinates to Spherical coordinates" << endl;

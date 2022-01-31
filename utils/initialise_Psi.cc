@@ -75,6 +75,7 @@
 #define MyType double
 
 using namespace std;
+using namespace NEWMAT;
 
 int main (int argc, char* argv[]){
   cout << "Initialise Fanning angle - Psi" << endl;

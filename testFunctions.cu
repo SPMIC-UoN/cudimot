@@ -108,7 +108,7 @@ __global__ void testFunctions_kernel(T* params,
    for(int i=0; i<NPARAMS; i++){
      printf("Derivative[%i]: %f\n",i,myderivatives[i]);
    }
-   printf("-------------------------------\n",pred);
+   printf("-------------------------------\n");
    for(int i=0; i<NPARAMS; i++){
      printf("Numerical Derivative[%i]: %f\n",i,numerical(i,params,CFP,FixP));
    }

@@ -68,6 +68,8 @@
 
 #include "dMRI_Data.h"
 
+using namespace std;
+
 namespace Cudimot{
   
   template <typename T>
@@ -101,7 +103,7 @@ namespace Cudimot{
     string file_input;
     file_input.append(opts.partsdir.value());
     file_input.append("/part_");
-    file_input.append(num2str(opts.idPart.value()));
+    file_input.append(MISCMATHS::num2str(opts.idPart.value()));
     file_input.append("/data");
     
     in.open(file_input.data(), ios::in | ios::binary);
@@ -190,7 +192,7 @@ namespace Cudimot{
 
     int vox=0;
     for(vox=0;vox<size;vox++){
-      ColumnVector voxmeas;
+      NEWMAT::ColumnVector voxmeas;
       voxmeas=dataM.Column(initial_vox+vox+1);
       if(opts.rician.value()) remove_NonPositive_entries(voxmeas); //So that log(data) does not give infinity in the likelihood
       for(int m=0;m<nmeas;m++){
