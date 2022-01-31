@@ -37,16 +37,20 @@ SM_52 = -gencode arch=compute_52,code=sm_52
 SM_60 = -gencode arch=compute_60,code=sm_60
 SM_61 = -gencode arch=compute_61,code=sm_61
 SM_70 = -gencode arch=compute_70,code=sm_70
+SM_72 = -gencode arch=compute_72,code=sm_72
+SM_75 = -gencode arch=compute_75,code=sm_75
+SM_80 = -gencode arch=compute_80,code=sm_80
+SM_86 = -gencode arch=compute_86,code=sm_86
 
 #for Realease
-#GPU_CARDs = $(SM_35) $(SM_37) $(SM_50) $(SM_52) 
+GPU_CARDs = $(SM_35) $(SM_37) $(SM_50) $(SM_52) $(SM_60) $(SM_61) $(SM_70) $(SM_72) $(SM_75) $(SM_80) $(SM_86)
 #$(SM_60) $(SM_61)
 
 #for FMRIB
 #GPU_CARDs = $(SM_37) $(SM_35)
 
 # For testing
-CPU_CARDs = $(SM_52)
+#CPU_CARDs = $(SM_52)
 
 PROJNAME = CUDIMOT
 
@@ -71,7 +75,7 @@ CUDIMOT_OBJS=$(DIR_objs)/link_cudimot_gpu.o $(DIR_objs)/cudimot.o $(DIR_objs)/cu
 SGEBEDPOST = bedpost
 SGEBEDPOSTX = bedpostx bedpostx_postproc.sh bedpostx_preproc.sh bedpostx_single_slice.sh bedpostx_datacheck
 
-SCRIPTS = ${modelname}@info utils/Run_dtifit.sh utils/jobs_wrapper.sh utils/initialise_Bingham.sh
+SCRIPTS = ${modelname}@info ${MODELPATH}/Pipeline_${modelname}.sh ${MODELPATH}/${modelname}_finish.sh utils/Run_dtifit.sh utils/jobs_wrapper.sh utils/initialise_Bingham.sh
 FILES = cart2spherical getFanningOrientation initialise_Psi split_parts_${modelname} ${modelname} merge_parts_${modelname} testFunctions_${modelname}
 XFILES=$(addprefix $(DIR_objs)/, $(FILES))
 
