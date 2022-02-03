@@ -1,2 +1,7 @@
 objs
 depend.mk
+python/build
+python/*.egg-info
+*.pyc
+__pycache__
+_version.py
