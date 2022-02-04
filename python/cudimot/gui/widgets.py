@@ -31,6 +31,18 @@ class TabPage(wx.Panel, OptionComponent):
         else:
             self.name = name
 
+    def config(self):
+        """
+        @return Mapping of key to value for config defined by this component
+        """
+        return {}
+
+    def state_changed(self, evt):
+        """
+        Default event handler
+        """
+        pass
+
     def add_next_prev_btn(self):
         """
         Add next/previous buttons
@@ -47,8 +59,9 @@ class TabPage(wx.Panel, OptionComponent):
         else:
             prev_btn = wx.StaticText(self, label="")
 
-        self.pack(" ")
-        self.sizer.AddGrowableRow(self.row-1, 1)
+        if not any([self.sizer.IsRowGrowable(r) for r in range(self.row)]):
+            self.pack(" ")
+            self.sizer.AddGrowableRow(self.row-1, 1)
         self.sizer.Add(prev_btn, pos=(self.row, 0), border=10, flag=wx.ALIGN_CENTRE_VERTICAL | wx.ALIGN_LEFT)
         self.sizer.Add(wx.StaticText(self, label=""), pos=(self.row, 1), border=10, flag=wx.ALIGN_CENTRE_VERTICAL | wx.ALIGN_LEFT)
         #self.sizer.Add(wx.StaticText(self, label=""), pos=(self.row, 2), border=10, flag=wx.ALIGN_CENTRE_VERTICAL | wx.ALIGN_LEFT)
@@ -92,6 +105,8 @@ class TabPage(wx.Panel, OptionComponent):
             widget.Enable(col == 0 or kwargs.get("enable", True))
             self.sizer.Add(widget, pos=(self.row, col), border=border, flag=wx.ALIGN_CENTRE_VERTICAL | wx.EXPAND | wx.LEFT, span=span)
             col += span[1]
+        if kwargs.get("expand", False):
+            self.sizer.AddGrowableRow(self.row, 1)
         self.row += 1
 
     def file_picker(self, label, pick_dir=False, handler=None, optional=False, initial_on=False, pack=True, **kwargs):
@@ -291,10 +306,14 @@ class ParameterList(wx.Panel):
         self.sizer = wx.BoxSizer(wx.VERTICAL)
 
         self.grid = wx.grid.Grid(self)
-        self.grid.CreateGrid(0, 2)
+        self.grid.CreateGrid(0, 5)
         self.grid.SetRowLabelSize(0)
-        self.grid.SetColLabelValue(0, "Parameter name")
-        self.grid.SetColLabelValue(1, "Parameter size")
+        self.grid.SetColLabelValue(0, "Name")
+        self.grid.SetColLabelValue(1, "Size")
+        self.grid.SetColLabelValue(2, "Upper bound")
+        self.grid.SetColLabelValue(3, "Lower bound")
+        self.grid.SetColLabelValue(4, "Prior")
+
         font = self.GetFont()
         font.SetWeight(wx.NORMAL)
         self.grid.SetLabelFont(font)
@@ -325,6 +344,7 @@ class ParameterList(wx.Panel):
         self.nparams += 1
         self.grid.SetCellValue(self.nparams-1, 0, "param%i" % self.nparams)
         self.grid.SetCellValue(self.nparams-1, 1, "1")
+        self.grid.SetCellValue(self.nparams-1, 4, "None")
 
     def DeleteSelectedParameters(self, event=None):
         for row in self.grid.GetSelectedRows():
@@ -348,9 +368,12 @@ class ParameterList(wx.Panel):
 
     def ResizeCols(self, width):
         num_width = 100
-        name_width = max(100, width - num_width)
+        name_width = max(100, width - 4*num_width)
         self.grid.SetColSize(0, name_width)
         self.grid.SetColSize(1, num_width)
+        self.grid.SetColSize(2, num_width)
+        self.grid.SetColSize(3, num_width)
+        self.grid.SetColSize(4, num_width)
 
 class NumberList(wx.grid.Grid):
     """

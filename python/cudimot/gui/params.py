@@ -4,7 +4,7 @@ CUDIMOT GUI: Model parameters setup
 import wx
 import wx.grid
 
-from . import get_nvols, OptionError
+from . import OptionError
 from .widgets import TabPage, ParameterList, NumberChooser, NumberList
 
 class ModelParameters(TabPage):
@@ -18,13 +18,13 @@ class ModelParameters(TabPage):
         self.section("Variable parameters")
         self.ptables = []
         self.ptables.append(ParameterList(self))
-        self.pack("", self.ptables[0], span=3)
+        self.pack("", self.ptables[0], span=3, expand=True)
         self.section("Common fixed parameters")
         self.ptables.append(ParameterList(self))
-        self.pack("", self.ptables[1], span=3)
+        self.pack("", self.ptables[1], span=3, expand=True)
         self.section("Voxelwise fixed parameters")
         self.ptables.append(ParameterList(self))
-        self.pack("", self.ptables[2], span=3)
+        self.pack("", self.ptables[2], span=3, expand=True)
         self.add_next_prev_btn()
 
         self.sizer.AddGrowableCol(2, 1)
@@ -39,13 +39,9 @@ class ModelParameters(TabPage):
             table.ResizeCols(width)
         event.Skip()
 
-    def options(self):
-        options = {
+    def config(self):
+        return {
+            "params" : self.ptables[0].GetParameters(),
+            "common_fixed_params" : self.ptables[1].GetParameters(),
+            "voxelwise_fixed_params" : self.ptables[2].GetParameters(),
         }
-        return options
-
-    def check_options(self, options):
-        pass
-
-    def option_changed(self, options, key, value):
-        pass

@@ -1,36 +1,33 @@
 """
-CUDIMOT GUI: Partial derivatives code
+CUDIMOT GUI: LM derivatives code
 """
-import wx
-import wx.grid
+from .code import UserCode
 
-from . import get_nvols, OptionError
-from .widgets import TabPage, NumberChooser, NumberList
+HELP="""\
+From the model predicted signal (Not from the cost function).
 
-class DerivativesCode(TabPage):
+It returns an array of values, one for each parameter of the model. If you are not going to use
+Levenberg-Marquardt algorithm for fitting your model (--runLevMar=false), this function can be
+empty (but the function must be declared).
+"""
+
+BOILERPLATE = """\
+// Partial derivatives respect each model parameter
+MACRO void Partial_Derivatives(
+			       int npar, // Number of Parameters to estimate
+			       T* P, // Estimated parameters, use P*
+			       T* CFP, // Fixed Parameters common to all the voxels
+			       T* FixP, // Fixed Parameters for each voxel
+			       T* derivatives) // Derivative respect each model estimated parameter
+{
+}
+"""
+
+class DerivativesLM(UserCode):
     """
-    Tab page containing entry for forward model evaluation code
+    Tab page containing entry for LM derivatives code
     """
 
     def __init__(self, app, parent, idx, n):
-        TabPage.__init__(self, app, parent, "Derivatives", idx, n, name="derivatives")
+        UserCode.__init__(self, app, parent, "Partial derivatives for LM", idx, n, name="derivatives_lm", help=HELP, boilerplate=BOILERPLATE)
 
-        self.section("Partial derivatives for Levenberg-Marquardt")
-
-        self.fwdmodel_code = wx.TextCtrl(self, style=wx.TE_MULTILINE, size=(-1, 200))
-        self.pack("", self.fwdmodel_code)
-        self.sizer.AddGrowableCol(0, 1)
-        self.SetSizer(self.sizer)
-        self.add_next_prev_btn()
-        self.Layout()
-
-    def options(self):
-        options = {
-        }
-        return options
-
-    def check_options(self, options):
-        pass
-
-    def option_changed(self, options, key, value):
-        pass

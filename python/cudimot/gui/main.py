@@ -15,7 +15,11 @@ from wx.lib.pubsub import pub
 
 from .project import ProjectOptions
 from .params import ModelParameters
-from .fwdmodel import ForwardModelCode
+from .fwdmodel import ForwardModel
+from .constraints_mcmc import ConstraintsMCMC
+from .derivatives import DerivativesLM
+from .constraints_lm import ConstraintsLM
+from .custom_priors import CustomPriors
 
 class CudimotGui(wx.Frame):
     """
@@ -32,20 +36,20 @@ class CudimotGui(wx.Frame):
 
         # Add title banner
         banner = wx.Panel(main_panel, size=(-1, 80))
-        banner.SetBackgroundColour((54, 122, 157))
+        banner.SetBackgroundColour((0, 0, 0))
         banner_fname = os.path.join(os.path.abspath(os.path.dirname(__file__)), "banner.png")
         wx.StaticBitmap(banner, -1, wx.Bitmap(banner_fname, wx.BITMAP_TYPE_ANY))
         main_vsizer.Add(banner, 0, wx.EXPAND)
 
         # Main GUI is in tab format
-        notebook = wx.Notebook(main_panel, id=wx.ID_ANY, style=wx.BK_DEFAULT)
-        main_vsizer.Add(notebook, 1, wx.EXPAND | wx.ALL, 5)
+        self.notebook = wx.Notebook(main_panel, id=wx.ID_ANY, style=wx.BK_DEFAULT)
+        main_vsizer.Add(self.notebook, 1, wx.EXPAND | wx.ALL, 5)
 
         # Add pages to the tab box
-        tabs = [ProjectOptions, ModelParameters, ForwardModelCode]
+        tabs = [ProjectOptions, ModelParameters, ForwardModel, ConstraintsMCMC, DerivativesLM, ConstraintsLM, CustomPriors]
         for idx, cls in enumerate(tabs):
-            tab = cls(self, notebook, idx, len(tabs))
-            notebook.AddPage(tab, tab.title)
+            tab = cls(self, self.notebook, idx, len(tabs))
+            self.notebook.AddPage(tab, tab.title)
 
         # Save/Create/Compile buttons at bottom of window
         line = wx.StaticLine(main_panel, style=wx.LI_HORIZONTAL)
@@ -57,8 +61,7 @@ class CudimotGui(wx.Frame):
         
         self.save_btn = wx.Button(bottom_panel, label="Save project")
         bottom_sizer.Add(self.save_btn, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
-        self.build_btn = wx.Button(bottom_panel, label="Create code")
-        bottom_sizer.Add(self.build_btn, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+        self.save_btn.Bind(wx.EVT_BUTTON, self._save)
         self.compile_btn = wx.Button(bottom_panel, label="Compile code")
         bottom_sizer.Add(self.compile_btn, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
         self.status = wx.StaticText(bottom_panel, label="")
@@ -71,6 +74,19 @@ class CudimotGui(wx.Frame):
         #self.SetMaxSize(self.GetSize())
         main_panel.SetSizerAndFit(main_vsizer)
         self.Fit()
+
+    def _save(self, _event=None):
+        """
+        Save project
+        
+        We save the project configuration in a YAML file and also autogenerate the
+        code from it
+        """
+        import yaml
+        config = {}
+        for idx in range(self.notebook.PageCount):
+            config.update(self.notebook.GetPage(idx).config())
+        print(yaml.dump(config))
 
 def main():
     """
