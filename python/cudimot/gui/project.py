@@ -27,8 +27,10 @@ class ProjectOptions(TabPage):
         self.Layout()
 
     def config(self):
+        precision = self.precision.GetString(self.precision.GetSelection())
         return {
             "name"        : self.model_name.GetValue(),
             "projdir"     : self.projdir.GetPath(),
-            "precision"     : self.precision.GetString(self.precision.GetSelection()),
+            "precision"   : precision,
+            "dtype"       : "double" if precision == "double" else "float",
         }

@@ -40,8 +40,14 @@ class ModelParameters(TabPage):
         event.Skip()
 
     def config(self):
-        return {
+        config = {
             "params" : self.ptables[0].GetParameters(),
             "common_fixed_params" : self.ptables[1].GetParameters(),
             "voxelwise_fixed_params" : self.ptables[2].GetParameters(),
         }
+        for idx, ptype in enumerate(["param", "cfp", "vfp"]):
+            params = self.ptables[idx].GetParameters()
+            config[f"n_{ptype}"] = len(params)
+            config[f"{ptype}_names"] = ",".join([p["name"] for p in params])
+            config[f"{ptype}_sizes"] = ",".join([str(p["size"]) for p in params])
+        return config

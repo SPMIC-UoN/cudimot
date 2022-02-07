@@ -20,6 +20,7 @@ from .constraints_mcmc import ConstraintsMCMC
 from .derivatives import DerivativesLM
 from .constraints_lm import ConstraintsLM
 from .custom_priors import CustomPriors
+from .loadsave import save_project
 
 class CudimotGui(wx.Frame):
     """
@@ -82,11 +83,10 @@ class CudimotGui(wx.Frame):
         We save the project configuration in a YAML file and also autogenerate the
         code from it
         """
-        import yaml
         config = {}
         for idx in range(self.notebook.PageCount):
             config.update(self.notebook.GetPage(idx).config())
-        print(yaml.dump(config))
+        save_project(config)
 
 def main():
     """

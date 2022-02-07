@@ -34,7 +34,7 @@ class UserCode(TabPage):
 
     def config(self):
         return {
-            "%s_code" % self.name : self.code.GetValue()
+            "code_%s" % self.name : self.code.GetValue()
         }
 
     def _reset(self):

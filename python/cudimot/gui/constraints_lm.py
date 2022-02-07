@@ -11,8 +11,8 @@ is not satisfied.
 BOILERPLATE = """\
 // Constraints run after LevenbergMarquardt (if LevenbergMarquardt is used)
 MACRO void FixConstraintsLM(	
-			    int npar, // Number of Parameters to estimate
-			    T* P) // Estimated parameters
+	int npar,        // Number of Parameters to estimate
+	T* P)            // Estimated parameters
 {
 }
 """
