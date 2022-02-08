@@ -1,2 +1,13 @@
 objs
+*.o
+*.gch
 depend.mk
+cart2spherical
+getFanningOrientation
+initialise_Psi
+cudimot_*
+merge_parts_*
+split_parts_* 
+testFunctions_* 
+*_priors
+*.info
