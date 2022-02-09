@@ -1,157 +1,90 @@
+# This is the Makefile for the CUDIMOT project
+#
+# The CUDIMOT project provides ...
+#
+# A CUDA compiler and toolkit must be installed
+
 include $(FSLCONFDIR)/default.mk
 
-ifndef modelname
-$(error Error: modelname has not been set)
-endif
-ifndef FSLDEVDIR
-$(error Error: FSLDEVDIR has not been set)
-endif
+PROJNAME = cudimot
+MODELNAME = NODDI_Bingham
+MODELDIR = mymodels/${MODELNAME}
 
-NVCC = ${CUDA}/bin/nvcc
-DIR_objs=objs
+LIBS     = -lfsl-warpfns -lfsl-basisfield -lfsl-meshclass \
+           -lfsl-newimage -lfsl-miscmaths -lfsl-NewNifti \
+           -lfsl-utils -lfsl-newran -lfsl-znz -lfsl-cprob
 
-MAX_REGISTERS= -maxrregcount 64
-TYPE := $(shell cat mymodels/${modelname}/modelparameters.h | grep MyType | cut -f 2 -d ' ')
-ifeq ($(TYPE),float)
-  MAX_REGISTERS= -maxrregcount 64
-else
-  MAX_REGISTERS= -maxrregcount 128
-endif
+CUDIMOT_CUDA_OBJS = \
+    ${MODELDIR}/modelparameters.o \
+    init_gpu.o \
+    dMRI_Data.o \
+    Model.o \
+    Parameters.o \
+    GridSearch.o \
+    Levenberg_Marquardt.o \
+    MCMC.o \
+    BIC_AIC.o \
+    getPredictedSignal.o
 
-MODELPATH= mymodels/$(modelname)
+CUDIMOT_OBJS = \
+    cudimot.o \
+    cudimotoptions.o
 
-NVCC_FLAGS = -I$(MODELPATH) -O3 -dc $(MAX_REGISTERS)
-#-Xptxas -v 
-#-G -lineinfo
+USRINCFLAGS = -I${MODELDIR} -I$(FSLDIR)/include/armawrap
+SCRIPTS  = \
+    utils/Run_dtifit.sh \
+    utils/jobs_wrapper.sh \
+    utils/initialise_Bingham.sh \
+    ${MODELDIR}/${MODELNAME}_finish.sh \
+    ${MODELDIR}/Pipeline_${MODELNAME}.sh
+XFILES   = \
+    cart2spherical \
+    getFanningOrientation \
+    initialise_Psi \
+    ${MODELNAME} \
+    cudimot_${MODELNAME}.sh \
+    merge_parts_${MODELNAME} \
+    split_parts_${MODELNAME} \
+    testFunctions_${MODELNAME}
+DATAFILES = \
+    ${MODELNAME}_priors \
+    ${MODELNAME}.info
 
-CUDA_INC=-I${CUDA}/lib -I${CUDA}/lib64
+all: ${XFILES} ${DATAFILES}
+clean: cleandata
 
-CUDA_INC = -I. -I${FSLDIR}/extras/include/newmat -I${FSLDIR}/include
-SM_20 = -gencode arch=compute_20,code=sm_20
-SM_21 = -gencode arch=compute_20,code=sm_21
-SM_30 = -gencode arch=compute_30,code=sm_30
-SM_35 = -gencode arch=compute_35,code=sm_35
-SM_37 = -gencode arch=compute_37,code=sm_37
-SM_50 = -gencode arch=compute_50,code=sm_50
-SM_52 = -gencode arch=compute_52,code=sm_52
-SM_60 = -gencode arch=compute_60,code=sm_60
-SM_61 = -gencode arch=compute_61,code=sm_61
-SM_70 = -gencode arch=compute_70,code=sm_70
-SM_72 = -gencode arch=compute_72,code=sm_72
-SM_75 = -gencode arch=compute_75,code=sm_75
-SM_80 = -gencode arch=compute_80,code=sm_80
-SM_86 = -gencode arch=compute_86,code=sm_86
+cleandata:
+	rm -rf ${DATAFILES}
 
-#for Realease
-GPU_CARDs = $(SM_35) $(SM_37) $(SM_50) $(SM_52) $(SM_60) $(SM_61) $(SM_70) $(SM_72) $(SM_75) $(SM_80) $(SM_86)
-#$(SM_60) $(SM_61)
+%.o: %.cu
+	${NVCC} -c ${NVCCFLAGS} $^
 
-#for FMRIB
-#GPU_CARDs = $(SM_37) $(SM_35)
+cart2spherical: utils/cart2spherical.o
+	${CXX} ${CXXFLAGS} -o $@ $^ ${LDFLAGS}
 
-# For testing
-#CPU_CARDs = $(SM_52)
+getFanningOrientation: utils/getFanningOrientation.o
+	${CXX} ${CXXFLAGS} -o $@ $^ ${LDFLAGS}
 
-PROJNAME = CUDIMOT
+initialise_Psi: utils/initialise_Psi.o
+	${CXX} ${CXXFLAGS} -o $@ $^ ${LDFLAGS}
 
-# Handle compilation against FSL 6.0.5- or 6.0.6+
-ifdef FSL_GE_606
-  # FSL 6.0.6 or later
-  INC_NEWMAT=$(FSLDIR)/include/armawrap
-  LPREF=fsl-
-endif
+${MODELNAME}: cudimotoptions.o cudimot.cc $(CUDIMOT_CUDA_OBJS)
+	${NVCC} ${NVCCFLAGS} ${NVCCLDFLAGS} -o $@ $^
 
-USRINCFLAGS = -I$(MODELPATH) -I${INC_NEWMAT} -I${INC_NEWRAN} -I${INC_CPROB} -I${INC_PROB} -I${INC_BOOST} -I${INC_ZLIB}
-USRLDFLAGS =  -L${LIB_NEWMAT} -L${LIB_NEWRAN} -L${LIB_CPROB} -L${LIB_PROB} -L${LIB_ZLIB}
+merge_parts_${MODELNAME}: merge_parts.cc cudimotoptions.o $(CUDIMOT_CUDA_OBJS)
+	${NVCC} ${NVCCFLAGS} ${NVCCLDFLAGS} -o $@ $^ -lboost_filesystem -lboost_system
 
-DLIBS = -l$(LPREF)warpfns -l$(LPREF)basisfield -l$(LPREF)meshclass -l$(LPREF)newimage -l$(LPREF)miscmaths -l$(LPREF)utils -l$(LPREF)newran -l$(LPREF)NewNifti -l$(LPREF)znz -l$(LPREF)cprob -lm -lz
+split_parts_${MODELNAME}: split_parts.cc cudimotoptions.o $(CUDIMOT_CUDA_OBJS)
+	${NVCC} ${NVCCFLAGS} $(NVCCLDFLAGS) -o $@ $^ -lboost_filesystem -lboost_system
 
-CUDIMOT=$(DIR_objs)/${modelname}
+testFunctions_${MODELNAME}: ${MODELDIR}/modelparameters.o testFunctions.cu
+	${NVCC} ${NVCCFLAGS} ${NVCCLDFLAGS} -o $@ $^
 
-CUDIMOT_CUDA_OBJS=$(DIR_objs)/modelparameters.o $(DIR_objs)/init_gpu.o $(DIR_objs)/dMRI_Data.o $(DIR_objs)/Model.o $(DIR_objs)/Parameters.o $(DIR_objs)/GridSearch.o $(DIR_objs)/Levenberg_Marquardt.o $(DIR_objs)/MCMC.o $(DIR_objs)/BIC_AIC.o $(DIR_objs)/getPredictedSignal.o
+cudimot_${MODELNAME}.sh : ${MODELNAME}
+	./generate_wrapper.sh ${MODELNAME}
 
-CUDIMOT_OBJS=$(DIR_objs)/link_cudimot_gpu.o $(DIR_objs)/cudimot.o $(DIR_objs)/cudimotoptions.o
+${MODELNAME}_priors:
+	cp ${MODELDIR}/modelpriors $@
 
-SGEBEDPOST = bedpost
-SGEBEDPOSTX = bedpostx bedpostx_postproc.sh bedpostx_preproc.sh bedpostx_single_slice.sh bedpostx_datacheck
-
-SCRIPTS = ${modelname}@info ${MODELPATH}/Pipeline_${modelname}.sh ${MODELPATH}/${modelname}_finish.sh utils/Run_dtifit.sh utils/jobs_wrapper.sh utils/initialise_Bingham.sh
-FILES = cart2spherical getFanningOrientation initialise_Psi split_parts_${modelname} ${modelname} merge_parts_${modelname} testFunctions_${modelname}
-XFILES=$(addprefix $(DIR_objs)/, $(FILES))
-
-cleanall:
-	rm -f $(DIR_objs)/*.o
-	rm -f $(DIR_objs)/testFunctions_${modelname}
-cleanbin:
-	rm $(DIR_objs)/*
-debugging:
-	rm -f $(DIR_objs)/testFunctions_${modelname}
-	rm -f $(DIR_objs)/Levenberg_Marquardt.o
-	rm -f $(DIR_objs)/MCMC.o
-	rm -f $(DIR_objs)/GridSearch.o
-	make install
-makedir:
-	mkdir -p $(FSLDEVDIR)/bin
-	mkdir -p $(DIR_objs)
-
-all: makedir ${XFILES}
-
-$(DIR_objs)/cart2spherical: 
-	${CXX} -o $@ utils/cart2spherical.cc ${CXXFLAGS} ${LDFLAGS} ${DLIBS} 
-$(DIR_objs)/getFanningOrientation: 
-	${CXX} -o $@ utils/getFanningOrientation.cc ${CXXFLAGS} ${LDFLAGS} ${DLIBS} 
-$(DIR_objs)/initialise_Psi: 
-	${CXX} -o $@ utils/initialise_Psi.cc ${CXXFLAGS} ${LDFLAGS} ${DLIBS} 
-
-$(DIR_objs)/cudimotoptions.o:
-	${CXX} ${CXXFLAGS} ${LDFLAGS} -c -o $@ cudimotoptions.cc ${DLIBS} 
-
-$(DIR_objs)/split_parts_${modelname}: $(DIR_objs)/cudimotoptions.o $(DIR_objs)/link_cudimot_gpu.o
-	${CXX} ${CXXFLAGS} $(USRINCFLAGS) ${LDFLAGS} -o $@ $(DIR_objs)/cudimotoptions.o $(DIR_objs)/link_cudimot_gpu.o split_parts.cc $(CUDIMOT_CUDA_OBJS) ${DLIBS} -lopenblas -lcudart -lboost_filesystem -lboost_system -L${CUDA}/lib64 -L${CUDA}/lib
-
-$(DIR_objs)/merge_parts_${modelname}: $(DIR_objs)/cudimotoptions.o $(DIR_objs)/link_cudimot_gpu.o
-	${CXX} ${CXXFLAGS} ${LDFLAGS} -o $@ $(DIR_objs)/cudimotoptions.o $(DIR_objs)/link_cudimot_gpu.o merge_parts.cc $(CUDIMOT_CUDA_OBJS) ${DLIBS} -lopenblas -lcudart -lboost_filesystem -lboost_system -L${CUDA}/lib64 -L${CUDA}/lib
-
-$(DIR_objs)/init_gpu.o: 
-		$(NVCC) $(GPU_CARDs) $(NVCC_FLAGS) -o $@ init_gpu.cu $(CUDA_INC)
-
-$(DIR_objs)/dMRI_Data.o: 
-		$(NVCC) $(GPU_CARDs) $(USRINCFLAGS) $(NVCC_FLAGS) -o $@ dMRI_Data.cu $(CUDA_INC)
-
-$(DIR_objs)/Parameters.o: 
-		$(NVCC) $(GPU_CARDs) $(USRINCFLAGS) $(NVCC_FLAGS) -o $@ Parameters.cu $(CUDA_INC)
-
-$(DIR_objs)/Model.o: 
-		$(NVCC) $(GPU_CARDs) $(USRINCFLAGS) $(NVCC_FLAGS) -o $@ Model.cu $(CUDA_INC)
-
-$(DIR_objs)/modelparameters.o: 
-		$(NVCC) $(GPU_CARDs) $(NVCC_FLAGS) $(MODELPATH)/modelparameters.cc -o $(DIR_objs)/modelparameters.o $(CUDA_INC)
-
-$(DIR_objs)/GridSearch.o: 	
-		$(NVCC) $(GPU_CARDs) $(USRINCFLAGS) $(NVCC_FLAGS) -o $@ GridSearch.cu $(CUDA_INC)
-
-$(DIR_objs)/Levenberg_Marquardt.o: 	
-		$(NVCC) $(GPU_CARDs) $(USRINCFLAGS) $(NVCC_FLAGS) -o $@ Levenberg_Marquardt.cu $(CUDA_INC)
-
-$(DIR_objs)/MCMC.o: 	
-		$(NVCC) $(GPU_CARDs) $(USRINCFLAGS) $(NVCC_FLAGS) -o $@ MCMC.cu $(CUDA_INC)
-
-$(DIR_objs)/BIC_AIC.o: 	
-		$(NVCC) $(GPU_CARDs) $(USRINCFLAGS) $(NVCC_FLAGS) -o $@ BIC_AIC.cu $(CUDA_INC)
-
-$(DIR_objs)/getPredictedSignal.o: 	
-		$(NVCC) $(GPU_CARDs) $(NVCC_FLAGS) -o $@ getPredictedSignal.cu $(CUDA_INC)
-
-$(DIR_objs)/link_cudimot_gpu.o:	$(CUDIMOT_CUDA_OBJS)
-		$(NVCC) $(GPU_CARDs) -dlink $(CUDIMOT_CUDA_OBJS) -o $@ -L${CUDA}/lib64 -L${CUDA}/lib
-
-$(DIR_objs)/cudimot.o:
-		$(NVCC) $(GPU_CARDs) $(USRINCFLAGS) $(NVCC_FLAGS) -o $@ cudimot.cc $(CUDA_INC)
-
-${CUDIMOT}:	${CUDIMOT_OBJS}
-		${CXX} ${CXXFLAGS} ${LDFLAGS} -o $(DIR_objs)/${modelname} ${CUDIMOT_OBJS} $(CUDIMOT_CUDA_OBJS) ${DLIBS} -lopenblas -lcudart -L${CUDA}/lib64 -L${CUDA}/lib
-		./generate_wrapper.sh
-
-$(DIR_objs)/testFunctions_${modelname}: 
-	$(NVCC) $(GPU_CARDs) -I$(MODELPATH) -O3 $(MAX_REGISTERS) $(MODELPATH)/modelparameters.cc testFunctions.cu -o $(DIR_objs)/testFunctions_${modelname} $(CUDA_INC)
-
+${MODELNAME}.info : cudimot_${MODELNAME}.sh
+	./generate_info.sh ${MODELNAME}
