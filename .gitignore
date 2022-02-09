@@ -12,7 +12,9 @@ getFanningOrientation
 initialise_Psi
 cudimot_*
 merge_parts_*
-split_parts_* 
-testFunctions_* 
+split_parts_*
+testFunctions_*
 *_priors
 *.info
+NODDI_Bingham
+NODDI_Watson
