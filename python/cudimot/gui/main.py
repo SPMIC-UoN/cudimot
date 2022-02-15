@@ -20,6 +20,7 @@ from .constraints_mcmc import ConstraintsMCMC
 from .derivatives import DerivativesLM
 from .constraints_lm import ConstraintsLM
 from .custom_priors import CustomPriors
+from .support_code import SupportCode
 from .loadsave import save_project
 
 class CudimotGui(wx.Frame):
@@ -47,7 +48,7 @@ class CudimotGui(wx.Frame):
         main_vsizer.Add(self.notebook, 1, wx.EXPAND | wx.ALL, 5)
 
         # Add pages to the tab box
-        tabs = [ProjectOptions, ModelParameters, ForwardModel, ConstraintsMCMC, DerivativesLM, ConstraintsLM, CustomPriors]
+        tabs = [ProjectOptions, ModelParameters, ForwardModel, ConstraintsMCMC, DerivativesLM, ConstraintsLM, CustomPriors, SupportCode]
         for idx, cls in enumerate(tabs):
             tab = cls(self, self.notebook, idx, len(tabs))
             self.notebook.AddPage(tab, tab.title)
@@ -60,21 +61,35 @@ class CudimotGui(wx.Frame):
         bottom_sizer = wx.BoxSizer(wx.HORIZONTAL)
         bottom_panel.SetSizer(bottom_sizer)
         
-        self.save_btn = wx.Button(bottom_panel, label="Save project")
+        self.save_btn = wx.Button(bottom_panel, label="Open")
+        bottom_sizer.Add(self.save_btn, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+        self.save_btn.Bind(wx.EVT_BUTTON, self._open)
+        self.save_btn = wx.Button(bottom_panel, label="Save")
         bottom_sizer.Add(self.save_btn, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
         self.save_btn.Bind(wx.EVT_BUTTON, self._save)
-        self.compile_btn = wx.Button(bottom_panel, label="Compile code")
+        self.compile_btn = wx.Button(bottom_panel, label="Build")
         bottom_sizer.Add(self.compile_btn, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
         self.status = wx.StaticText(bottom_panel, label="")
         self.status.SetFont(wx.Font(12, wx.DEFAULT, wx.NORMAL, wx.BOLD))
         bottom_sizer.Add(self.status, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
-        #self.run_btn.Bind(wx.EVT_BUTTON, self._do_run)
+        #self.run_btn.Bind(wx.EVT_BUTTON, self._build)
         main_vsizer.Add(bottom_panel, 0, wx.EXPAND)
 
         #self.SetMinSize(self.GetSize())
         #self.SetMaxSize(self.GetSize())
         main_panel.SetSizerAndFit(main_vsizer)
         self.Fit()
+
+    def _open(self, evt=None):
+        with wx.DirDialog(self, "Open project folder",
+                       style=wx.DD_DIR_MUST_EXIST) as fileDialog:
+            if fileDialog.ShowModal() != wx.ID_CANCEL:
+                projdir = fileDialog.GetPath()
+                #config = {}
+                for idx in range(self.notebook.PageCount):
+                    self.notebook.GetPage(idx).load(projdir)
+                    #config.update(self.notebook.GetPage(idx).config())
+                #print("Loaded: ", config)
 
     def _save(self, _event=None):
         """
@@ -83,10 +98,22 @@ class CudimotGui(wx.Frame):
         We save the project configuration in a YAML file and also autogenerate the
         code from it
         """
-        config = {}
-        for idx in range(self.notebook.PageCount):
-            config.update(self.notebook.GetPage(idx).config())
-        save_project(config)
+        with wx.DirDialog(self, "Select save folder") as fileDialog:
+            if fileDialog.ShowModal() != wx.ID_CANCEL:
+                projdir = fileDialog.GetPath()
+                if os.path.exists(projdir):
+                    with wx.MessageDialog(self, "Directory already exists - Overwrite?", caption="Confirm",
+                                          style=wx.OK|wx.CANCEL) as confirm_dialog:
+                        if confirm_dialog.ShowModal() == wx.ID_CANCEL:
+                            return
+            
+                # FIXME hack
+                self.notebook.GetPage(0).projdir.SetValue(projdir)
+                config = {}
+                for idx in range(self.notebook.PageCount):
+                    config.update(self.notebook.GetPage(idx).config())
+                print(config)
+                save_project(projdir, config)
 
 def main():
     """

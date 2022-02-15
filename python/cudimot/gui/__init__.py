@@ -14,6 +14,12 @@ class OptionError(RuntimeError):
     an error that the user must resolve)
     """
 
+class LoadError(RuntimeError):
+    """
+    Exception thrown when we couldn't successfully load an option
+    from a project directory
+    """
+
 class OptionComponent():
     """
     Base class for anything which defines / responds to options

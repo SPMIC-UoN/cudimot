@@ -1,6 +1,8 @@
 """
 CUDIMOT GUI: Main project options
 """
+import os
+
 import wx
 import wx.grid
 
@@ -17,7 +19,7 @@ class ProjectOptions(TabPage):
         self._nvols = -1 # Cached to improve responsiveness
 
         self.section("Basic configuration")
-        self.projdir = self.file_picker("Project Directory", pick_dir=True)
+        self.projdir = self.text("Project Directory", style=wx.TE_READONLY)
         self.model_name = self.text("Model name", size=(300, -1))
         self.precision = self.choice("Floating point precision", ["single", "double"], initial=1)
 
@@ -30,7 +32,31 @@ class ProjectOptions(TabPage):
         precision = self.precision.GetString(self.precision.GetSelection())
         return {
             "name"        : self.model_name.GetValue(),
-            "projdir"     : self.projdir.GetPath(),
+            "projdir"     : self.projdir.GetValue(),
             "precision"   : precision,
             "dtype"       : "double" if precision == "double" else "float",
         }
+
+    def load(self, projdir):
+        self.projdir.SetValue(projdir)
+        precision = self.config_from_line_regex("precision", 
+                                                os.path.join(projdir, "modelparameters.h"), 
+                                                "typedef\s+(\w+)\s+MyType\s*;")
+        if precision in ("single", "double"):
+            self.precision.SetSelection(self.precision.FindString(precision))
+        elif precision:
+            print(f"Unrecogniazed precision: {precision}")
+        else:
+            print(f"Precision not found")
+
+        modelname = self.config_from_line_regex("modelname",
+                                                os.path.join(projdir, "Pipeline_*.sh"), 
+                                                "modelname\s*=\s*(\w+)")
+        if not modelname:
+            # Fall back on project directory basename
+            modelname = os.path.basename(projdir)
+        self.model_name.SetValue(modelname)
+
+
+
+
