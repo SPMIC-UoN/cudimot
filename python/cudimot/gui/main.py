@@ -20,6 +20,7 @@ from .constraints_mcmc import ConstraintsMCMC
 from .derivatives import DerivativesLM
 from .constraints_lm import ConstraintsLM
 from .custom_priors import CustomPriors
+from .support_code import SupportCode
 from .loadsave import save_project
 
 class CudimotGui(wx.Frame):
@@ -47,7 +48,7 @@ class CudimotGui(wx.Frame):
         main_vsizer.Add(self.notebook, 1, wx.EXPAND | wx.ALL, 5)
 
         # Add pages to the tab box
-        tabs = [ProjectOptions, ModelParameters, ForwardModel, ConstraintsMCMC, DerivativesLM, ConstraintsLM, CustomPriors]
+        tabs = [ProjectOptions, ModelParameters, ForwardModel, ConstraintsMCMC, DerivativesLM, ConstraintsLM, CustomPriors, SupportCode]
         for idx, cls in enumerate(tabs):
             tab = cls(self, self.notebook, idx, len(tabs))
             self.notebook.AddPage(tab, tab.title)
@@ -76,6 +77,16 @@ class CudimotGui(wx.Frame):
         main_panel.SetSizerAndFit(main_vsizer)
         self.Fit()
 
+    def load(self, projdir):
+        """
+        Load a project from a named directory
+        """
+        config = {}
+        for idx in range(self.notebook.PageCount):
+            self.notebook.GetPage(idx).load(projdir)
+            config.update(self.notebook.GetPage(idx).config())
+        #print("Loaded: ", config)
+
     def _save(self, _event=None):
         """
         Save project
@@ -86,6 +97,7 @@ class CudimotGui(wx.Frame):
         config = {}
         for idx in range(self.notebook.PageCount):
             config.update(self.notebook.GetPage(idx).config())
+        print(config)
         save_project(config)
 
 def main():

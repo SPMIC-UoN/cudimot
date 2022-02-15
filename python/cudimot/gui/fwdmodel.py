@@ -24,4 +24,4 @@ class ForwardModel(UserCode):
     """
 
     def __init__(self, app, parent, idx, n):
-        UserCode.__init__(self, app, parent, "Forward model", idx, n, name="fwdmodel", help=HELP, boilerplate=BOILERPLATE)
+        UserCode.__init__(self, app, parent, "Forward model", idx, n, name="fwdmodel", function_names=["Predicted_Signal"], help=HELP, boilerplate=BOILERPLATE)

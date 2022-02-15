@@ -24,4 +24,4 @@ class ConstraintsMCMC(UserCode):
     """
 
     def __init__(self, app, parent, idx, n):
-        UserCode.__init__(self, app, parent, "MCMC constraints", idx, n, name="constraints_mcmc", help=HELP, boilerplate=BOILERPLATE)
+        UserCode.__init__(self, app, parent, "MCMC constraints", idx, n, name="constraints_mcmc", function_names=["ConstraintsMCMC"], help=HELP, boilerplate=BOILERPLATE)

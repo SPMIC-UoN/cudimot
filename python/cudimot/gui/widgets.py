@@ -3,7 +3,9 @@ BASIL GUI for Oxford ASL - Base classes for pages in the tab notebook
 
 Copyright (C) 2020 University of Oxford
 """
+import glob
 import os
+import re
 
 import numpy as np
 
@@ -36,6 +38,30 @@ class TabPage(wx.Panel, OptionComponent):
         @return Mapping of key to value for config defined by this component
         """
         return {}
+
+    def load(self, projdir):
+        """
+        Load options from project directory
+        """
+        pass
+
+    def config_from_line_regex(self, option, fname_glob, line_regex):
+        """
+        Try to find an option value by searching file(s) for a regular expression
+        """
+        #print(line_regex)
+        pattern = re.compile(line_regex)
+        for fname in glob.glob(fname_glob):
+            with open(fname, "r") as f:
+                for line in f:
+                    #print(line)
+                    match = pattern.match(line)
+                    #print("match", match)
+                    if match:
+                        #print(match.groups())
+                        return match.group(1)
+        print(f"Failed to load option {option} from file(s) {fname_glob} (searching for {line_regex})")
+        return ""
 
     def state_changed(self, evt):
         """
@@ -299,20 +325,26 @@ class ParameterList(wx.Panel):
     Widget for specifying a list of parameters
     """
 
-    def __init__(self, parent):
+    def __init__(self, parent, variable):
         wx.Panel.__init__(self, parent)
         self.nparams = 0
+        self.variable = variable
 
         self.sizer = wx.BoxSizer(wx.VERTICAL)
 
         self.grid = wx.grid.Grid(self)
-        self.grid.CreateGrid(0, 5)
         self.grid.SetRowLabelSize(0)
-        self.grid.SetColLabelValue(0, "Name")
-        self.grid.SetColLabelValue(1, "Size")
-        self.grid.SetColLabelValue(2, "Upper bound")
-        self.grid.SetColLabelValue(3, "Lower bound")
-        self.grid.SetColLabelValue(4, "Prior")
+        if self.variable:
+            self.grid.CreateGrid(0, 5)
+            self.grid.SetColLabelValue(0, "Name")
+            self.grid.SetColLabelValue(1, "Initial value")
+            self.grid.SetColLabelValue(2, "Upper bound")
+            self.grid.SetColLabelValue(3, "Lower bound")
+            self.grid.SetColLabelValue(4, "Prior")
+        else:
+            self.grid.CreateGrid(0, 2)
+            self.grid.SetColLabelValue(0, "Name")
+            self.grid.SetColLabelValue(1, "Size")
 
         font = self.GetFont()
         font.SetWeight(wx.NORMAL)
@@ -339,41 +371,70 @@ class ParameterList(wx.Panel):
         self.SetSizer(self.sizer)
         self.Fit()
 
-    def AddParameter(self, event=None):
+    def AddParameter(self, event=None, name=None, size=1, init=0.0, ubound="", lbound="", prior="None"):
         self.grid.AppendRows()
         self.nparams += 1
-        self.grid.SetCellValue(self.nparams-1, 0, "param%i" % self.nparams)
-        self.grid.SetCellValue(self.nparams-1, 1, "1")
-        self.grid.SetCellValue(self.nparams-1, 4, "None")
+        if not name:
+            name = "param%i" % self.nparams
+        self.grid.SetCellValue(self.nparams-1, 0, name)
+        if self.variable:
+            self.grid.SetCellValue(self.nparams-1, 1, str(init))
+            self.grid.SetCellValue(self.nparams-1, 2, str(lbound))
+            self.grid.SetCellValue(self.nparams-1, 3, str(ubound))
+            self.grid.SetCellValue(self.nparams-1, 4, prior)
+        else:
+            self.grid.SetCellValue(self.nparams-1, 1, str(size))
 
     def DeleteSelectedParameters(self, event=None):
         for row in self.grid.GetSelectedRows():
             self.grid.DeleteRows(row)
             self.nparams -= 1
 
+    def ClearParameters(self):
+        self.grid.ClearGrid()
+        self.nparams = 0
+
     def GetParameters(self):
         """
         :return: Sequence of parameters in the list
         """
+        print("GetParameters: ", self.nparams)
         params = []
         for p_idx in range(self.nparams):
             try:
-                params.append({
+                param = {
                     "name" : self.grid.GetCellValue(p_idx, 0),
-                    "size" : int(self.grid.GetCellValue(p_idx, 1)),
-                })
-            except ValueError:
-                pass # FIXME how to handle invalid sizes
+                }
+                print("GetParameters1: ", param)
+                if self.variable:
+                    param.update({
+                        "init" : self.grid.GetCellValue(p_idx, 1),
+                        "lbound" : self.grid.GetCellValue(p_idx, 2),
+                        "ubound" : self.grid.GetCellValue(p_idx, 3),
+                        "prior" : self.grid.GetCellValue(p_idx, 4),
+                    })
+                else:
+                    param.update({
+                        "size" : int(self.grid.GetCellValue(p_idx, 1)),
+                    })
+                print("GetParameter2s: ", param)
+                params.append(param)
+            except ValueError as exc:
+                print(exc)
+                # FIXME how to handle invalid sizes
+                import traceback
+                traceback.print_exc()
         return params
 
     def ResizeCols(self, width):
         num_width = 100
-        name_width = max(100, width - 4*num_width)
+        name_width = max(100, width - num_width*(1 if not self.variable else 4))
         self.grid.SetColSize(0, name_width)
         self.grid.SetColSize(1, num_width)
-        self.grid.SetColSize(2, num_width)
-        self.grid.SetColSize(3, num_width)
-        self.grid.SetColSize(4, num_width)
+        if self.variable:
+            self.grid.SetColSize(2, num_width)
+            self.grid.SetColSize(3, num_width)
+            self.grid.SetColSize(4, num_width)
 
 class NumberList(wx.grid.Grid):
     """
