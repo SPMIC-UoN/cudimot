@@ -14,6 +14,8 @@ LIBS     = -lfsl-warpfns -lfsl-basisfield -lfsl-meshclass \
            -lfsl-newimage -lfsl-miscmaths -lfsl-NewNifti \
            -lfsl-utils -lfsl-newran -lfsl-znz -lfsl-cprob
 
+USRINCFLAGS = -I${MODELDIR} -I$(FSLDIR)/include/armawrap
+
 CUDIMOT_CUDA_OBJS = \
     ${MODELDIR}/modelparameters.o \
     init_gpu.o \
@@ -30,13 +32,13 @@ CUDIMOT_OBJS = \
     cudimot.o \
     cudimotoptions.o
 
-USRINCFLAGS = -I${MODELDIR} -I$(FSLDIR)/include/armawrap
 SCRIPTS  = \
     utils/Run_dtifit.sh \
     utils/jobs_wrapper.sh \
     utils/initialise_Bingham.sh \
     ${MODELDIR}/${MODELNAME}_finish.sh \
     ${MODELDIR}/Pipeline_${MODELNAME}.sh
+
 XFILES   = \
     cart2spherical \
     getFanningOrientation \
@@ -46,6 +48,7 @@ XFILES   = \
     merge_parts_${MODELNAME} \
     split_parts_${MODELNAME} \
     testFunctions_${MODELNAME}
+
 DATAFILES = \
     ${MODELNAME}_priors \
     ${MODELNAME}.info
@@ -68,7 +71,7 @@ getFanningOrientation: utils/getFanningOrientation.o
 initialise_Psi: utils/initialise_Psi.o
 	${CXX} ${CXXFLAGS} -o $@ $^ ${LDFLAGS}
 
-${MODELNAME}: cudimotoptions.o cudimot.cc $(CUDIMOT_CUDA_OBJS)
+${MODELNAME}: cudimot.cc cudimotoptions.o $(CUDIMOT_CUDA_OBJS)
 	${NVCC} ${NVCCFLAGS} ${NVCCLDFLAGS} -o $@ $^
 
 merge_parts_${MODELNAME}: merge_parts.cc cudimotoptions.o $(CUDIMOT_CUDA_OBJS)
@@ -77,14 +80,14 @@ merge_parts_${MODELNAME}: merge_parts.cc cudimotoptions.o $(CUDIMOT_CUDA_OBJS)
 split_parts_${MODELNAME}: split_parts.cc cudimotoptions.o $(CUDIMOT_CUDA_OBJS)
 	${NVCC} ${NVCCFLAGS} $(NVCCLDFLAGS) -o $@ $^ -lboost_filesystem -lboost_system
 
-testFunctions_${MODELNAME}: ${MODELDIR}/modelparameters.o testFunctions.cu
+testFunctions_${MODELNAME}: testFunctions.cu ${MODELDIR}/modelparameters.o
 	${NVCC} ${NVCCFLAGS} ${NVCCLDFLAGS} -o $@ $^
 
 cudimot_${MODELNAME}.sh : ${MODELNAME}
 	./generate_wrapper.sh ${MODELNAME}
 
-${MODELNAME}_priors:
-	cp ${MODELDIR}/modelpriors $@
-
 ${MODELNAME}.info : cudimot_${MODELNAME}.sh
 	./generate_info.sh ${MODELNAME}
+
+${MODELNAME}_priors:
+	cp ${MODELDIR}/modelpriors $@
