@@ -7,8 +7,7 @@ import yaml
 
 import cudimot.gui.code_templates as templates
 
-def save_project(config, generate_code=True):
-    projdir = config.get("projdir", None)
+def save_project(projdir, config, generate_code=True):
     if not projdir:
         raise ValueError("Project directory not set")
     elif not os.path.exists(projdir):
@@ -34,7 +33,6 @@ def create_code(config, projdir):
 
     # Create modelfunctions.h
     with open(os.path.join(projdir, "modelfunctions.h"), "w") as f:
-        f.write(templates.HEADER)
         f.write(templates.MODELFUNCTIONS_H.format(**config))
 
     # Create modelpriors

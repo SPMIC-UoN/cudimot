@@ -19,7 +19,7 @@ class ProjectOptions(TabPage):
         self._nvols = -1 # Cached to improve responsiveness
 
         self.section("Basic configuration")
-        self.projdir = self.file_picker("Project Directory", pick_dir=True, handler=self._open)
+        self.projdir = self.text("Project Directory", style=wx.TE_READONLY)
         self.model_name = self.text("Model name", size=(300, -1))
         self.precision = self.choice("Floating point precision", ["single", "double"], initial=1)
 
@@ -32,19 +32,13 @@ class ProjectOptions(TabPage):
         precision = self.precision.GetString(self.precision.GetSelection())
         return {
             "name"        : self.model_name.GetValue(),
-            "projdir"     : self.projdir.GetPath(),
+            "projdir"     : self.projdir.GetValue(),
             "precision"   : precision,
             "dtype"       : "double" if precision == "double" else "float",
         }
 
-    def _open(self, evt=None):
-        projdir = self.projdir.GetPath()
-        print(projdir, os.path.exists(projdir), os.path.isdir(projdir))
-        if os.path.exists(projdir) and os.path.isdir(projdir):
-            self.app.load(projdir)
-
     def load(self, projdir):
-        self.projdir.SetPath(projdir)
+        self.projdir.SetValue(projdir)
         precision = self.config_from_line_regex("precision", 
                                                 os.path.join(projdir, "modelparameters.h"), 
                                                 "typedef\s+(\w+)\s+MyType\s*;")

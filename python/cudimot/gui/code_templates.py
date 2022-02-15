@@ -102,7 +102,7 @@ LIBS     = -lfsl-warpfns -lfsl-basisfield -lfsl-meshclass \
            -lfsl-newimage -lfsl-miscmaths -lfsl-NewNifti \
            -lfsl-utils -lfsl-newran -lfsl-znz -lfsl-cprob
 
-USRINCFLAGS = -I${MODELDIR} -I$(FSLDIR)/include/armawrap
+USRINCFLAGS = -I$(MODELDIR) -I$(FSLDIR)/include/armawrap
 
 CUDIMOT_CUDA_OBJS = \
     $(MODELDIR)/modelparameters.o \
