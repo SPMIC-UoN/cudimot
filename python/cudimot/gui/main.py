@@ -53,6 +53,8 @@ class CudimotGui(wx.Frame):
         for idx, cls in enumerate(tabs):
             tab = cls(self, self.notebook, idx, len(tabs))
             self.notebook.AddPage(tab, tab.title)
+            tab.Enable(False)
+        self.notebook.SendSizeEvent()
 
         # Save/Create/Compile buttons at bottom of window
         line = wx.StaticLine(main_panel, style=wx.LI_HORIZONTAL)
@@ -61,36 +63,72 @@ class CudimotGui(wx.Frame):
         bottom_panel = wx.Panel(main_panel)
         bottom_sizer = wx.BoxSizer(wx.HORIZONTAL)
         bottom_panel.SetSizer(bottom_sizer)
-        
-        self.save_btn = wx.Button(bottom_panel, label="Open")
-        bottom_sizer.Add(self.save_btn, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
-        self.save_btn.Bind(wx.EVT_BUTTON, self._open)
+
+        self.new_btn = wx.Button(bottom_panel, label="New")
+        bottom_sizer.Add(self.new_btn, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+        self.new_btn.Bind(wx.EVT_BUTTON, self._new)
+        self.open_btn = wx.Button(bottom_panel, label="Open")
+        bottom_sizer.Add(self.open_btn, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+        self.open_btn.Bind(wx.EVT_BUTTON, self._open)
         self.save_btn = wx.Button(bottom_panel, label="Save")
-        bottom_sizer.Add(self.save_btn, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+        self.save_btn.Enable(False)
         self.save_btn.Bind(wx.EVT_BUTTON, self._save)
+        bottom_sizer.Add(self.save_btn, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+        self.save_as_btn = wx.Button(bottom_panel, label="Save As")
+        self.save_as_btn.Enable(False)
+        self.save_as_btn.Bind(wx.EVT_BUTTON, self._save_as)
+        bottom_sizer.Add(self.save_as_btn, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
         self.compile_btn = wx.Button(bottom_panel, label="Build")
+        self.compile_btn.Enable(False)
+        #self.compile_btn.Bind(wx.EVT_BUTTON, self._build)
         bottom_sizer.Add(self.compile_btn, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
         self.status = wx.StaticText(bottom_panel, label="")
         self.status.SetFont(wx.Font(12, wx.DEFAULT, wx.NORMAL, wx.BOLD))
-        bottom_sizer.Add(self.status, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
-        #self.run_btn.Bind(wx.EVT_BUTTON, self._build)
-        main_vsizer.Add(bottom_panel, 0, wx.EXPAND)
+        bottom_sizer.Add(self.status, 1, wx.EXPAND | wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+        self.settings_btn = wx.Button(bottom_panel, label="Settings")
+        self.settings_btn.Enable(False)
+        #self.settings_btn.Bind(wx.EVT_BUTTON, self._settings)
+        bottom_sizer.Add(self.settings_btn, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+        main_vsizer.Add(bottom_panel, 0)
 
         #self.SetMinSize(self.GetSize())
         #self.SetMaxSize(self.GetSize())
         main_panel.SetSizerAndFit(main_vsizer)
         self.Fit()
 
+    def _new(self, evt=None):
+        with wx.DirDialog(self, "Select project folder") as fileDialog:
+            if fileDialog.ShowModal() == wx.ID_CANCEL:
+                return
+
+            projdir = fileDialog.GetPath()
+            if os.path.exists(projdir) and os.listdir(projdir):
+                with wx.MessageDialog(self, "Directory is not empty - Overwrite?", caption="Confirm",
+                                        style=wx.OK|wx.CANCEL) as confirm_dialog:
+                    if confirm_dialog.ShowModal() == wx.ID_CANCEL:
+                        return
+
+            self.projdir = projdir
+            for idx in range(self.notebook.PageCount):
+                page = self.notebook.GetPage(idx)
+                page.Enable(True)
+                page.reset(self.projdir)
+            self.save_btn.Enable(True)
+            self.save_as_btn.Enable(True)
+
     def _open(self, evt=None):
         with wx.DirDialog(self, "Open project folder",
                        style=wx.DD_DIR_MUST_EXIST) as fileDialog:
-            if fileDialog.ShowModal() != wx.ID_CANCEL:
-                self.projdir = fileDialog.GetPath()
-                #config = {}
-                for idx in range(self.notebook.PageCount):
-                    self.notebook.GetPage(idx).load(self.projdir)
-                    #config.update(self.notebook.GetPage(idx).config())
-                #print("Loaded: ", config)
+            if fileDialog.ShowModal() == wx.ID_CANCEL:
+                return
+
+            self.projdir = fileDialog.GetPath()
+            for idx in range(self.notebook.PageCount):
+                page = self.notebook.GetPage(idx)
+                page.Enable(True)
+                page.load(self.projdir)
+            self.save_btn.Enable(True)
+            self.save_as_btn.Enable(True)
 
     def _save(self, _event=None):
         """
@@ -99,23 +137,31 @@ class CudimotGui(wx.Frame):
         We save the project configuration in a YAML file and also autogenerate the
         code from it
         """
+        config = {}
+        for idx in range(self.notebook.PageCount):
+            config.update(self.notebook.GetPage(idx).config())
+        print(config)
+        save_project(self.projdir, config)
+
+    def _save_as(self, _event=None):
+        """
+        Save project in a new location
+        """
         with wx.DirDialog(self, "Select save folder") as fileDialog:
-            if fileDialog.ShowModal() != wx.ID_CANCEL:
-                projdir = fileDialog.GetPath()
-                if os.path.exists(projdir):
-                    with wx.MessageDialog(self, "Directory already exists - Overwrite?", caption="Confirm",
-                                          style=wx.OK|wx.CANCEL) as confirm_dialog:
-                        if confirm_dialog.ShowModal() == wx.ID_CANCEL:
-                            return
-            
-                self.projdir = projdir
-                # FIXME hack
-                self.notebook.GetPage(0).projdir.SetValue(self.projdir)
-                config = {}
-                for idx in range(self.notebook.PageCount):
-                    config.update(self.notebook.GetPage(idx).config())
-                print(config)
-                save_project(self.projdir, config)
+            if fileDialog.ShowModal() == wx.ID_CANCEL:
+                return
+
+            projdir = fileDialog.GetPath()
+            if os.path.exists(projdir) and os.listdir(projdir):
+                with wx.MessageDialog(self, "Directory is not empty - Overwrite?", caption="Confirm",
+                                      style=wx.OK|wx.CANCEL) as confirm_dialog:
+                    if confirm_dialog.ShowModal() == wx.ID_CANCEL:
+                        return
+
+            self.projdir = projdir
+            # FIXME hack
+            self.notebook.GetPage(0).projdir.SetValue(self.projdir)
+            self._save()
 
 def main():
     """

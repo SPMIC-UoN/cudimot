@@ -93,8 +93,11 @@ class UserCode(TabPage):
             "code_%s" % self.name : self.code.GetValue()
         }
 
-    def _reset(self):
+    def reset(self, projdir):
         self.code.SetValue(self.boilerplate)
+
+    def _reset(self, evt=None):
+        self.reset("")
 
     def load(self, projdir):
         code = self._function_code(os.path.join(projdir, "modelfunctions.h"), )
