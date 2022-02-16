@@ -31,6 +31,7 @@ class CudimotGui(wx.Frame):
     def __init__(self):
         # Initialize main window title, icon etc and vertical box sizer
         wx.Frame.__init__(self, None, title="CUDIMOT", style=wx.DEFAULT_FRAME_STYLE)
+        self.projdir = ""
         icon_fname = os.path.join(os.path.abspath(os.path.dirname(__file__)), "cudimot.png")
         self.SetIcon(wx.Icon(icon_fname))
         main_panel = wx.Panel(self)
@@ -84,10 +85,10 @@ class CudimotGui(wx.Frame):
         with wx.DirDialog(self, "Open project folder",
                        style=wx.DD_DIR_MUST_EXIST) as fileDialog:
             if fileDialog.ShowModal() != wx.ID_CANCEL:
-                projdir = fileDialog.GetPath()
+                self.projdir = fileDialog.GetPath()
                 #config = {}
                 for idx in range(self.notebook.PageCount):
-                    self.notebook.GetPage(idx).load(projdir)
+                    self.notebook.GetPage(idx).load(self.projdir)
                     #config.update(self.notebook.GetPage(idx).config())
                 #print("Loaded: ", config)
 
@@ -107,13 +108,14 @@ class CudimotGui(wx.Frame):
                         if confirm_dialog.ShowModal() == wx.ID_CANCEL:
                             return
             
+                self.projdir = projdir
                 # FIXME hack
-                self.notebook.GetPage(0).projdir.SetValue(projdir)
+                self.notebook.GetPage(0).projdir.SetValue(self.projdir)
                 config = {}
                 for idx in range(self.notebook.PageCount):
                     config.update(self.notebook.GetPage(idx).config())
                 print(config)
-                save_project(projdir, config)
+                save_project(self.projdir, config)
 
 def main():
     """

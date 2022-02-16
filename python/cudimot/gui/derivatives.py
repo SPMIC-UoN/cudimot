@@ -29,5 +29,5 @@ class DerivativesLM(UserCode):
     """
 
     def __init__(self, app, parent, idx, n):
-        UserCode.__init__(self, app, parent, "Partial derivatives for LM", idx, n, name="derivatives_lm", function_names=["Partial_Derivatives"], help=HELP, boilerplate=BOILERPLATE)
+        UserCode.__init__(self, app, parent, "Partial derivatives for LM", idx, n, name="derivatives_lm", function_name="Partial_Derivatives", help=HELP, boilerplate=BOILERPLATE)
 
