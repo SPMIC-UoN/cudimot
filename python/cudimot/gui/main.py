@@ -8,6 +8,7 @@ create and compile their own models using the CUDIMOT framework
 import sys
 import os
 import traceback
+import yaml
 
 import wx
 import wx.grid
@@ -21,7 +22,7 @@ from .derivatives import DerivativesLM
 from .constraints_lm import ConstraintsLM
 from .custom_priors import CustomPriors
 from .support_code import SupportCode
-from .loadsave import save_project
+import cudimot.gui.code_templates as templates
 
 class CudimotGui(wx.Frame):
     """
@@ -130,19 +131,6 @@ class CudimotGui(wx.Frame):
             self.save_btn.Enable(True)
             self.save_as_btn.Enable(True)
 
-    def _save(self, _event=None):
-        """
-        Save project
-        
-        We save the project configuration in a YAML file and also autogenerate the
-        code from it
-        """
-        config = {}
-        for idx in range(self.notebook.PageCount):
-            config.update(self.notebook.GetPage(idx).config())
-        print(config)
-        save_project(self.projdir, config)
-
     def _save_as(self, _event=None):
         """
         Save project in a new location
@@ -162,6 +150,61 @@ class CudimotGui(wx.Frame):
             # FIXME hack
             self.notebook.GetPage(0).projdir.SetValue(self.projdir)
             self._save()
+
+    def _save(self, _event=None):
+        """
+        Save project
+        
+        We save the project configuration in a YAML file and also autogenerate the
+        code from it
+        """
+        config = {}
+        for idx in range(self.notebook.PageCount):
+            config.update(self.notebook.GetPage(idx).config())
+        print(config)
+
+        if not os.path.exists(self.projdir):
+            os.makedirs(self.projdir)
+        elif not os.path.isdir(self.projdir):
+            raise ValueError(f"{self.projdir} already exists and is not a directory")
+
+        with open(os.path.join(self.projdir, "cudimot_config.yml"), "w") as f:
+            f.write(yaml.dump(config))
+
+        # Create modelparameters.h
+        with open(os.path.join(self.projdir, "modelparameters.h"), "w") as f:
+            f.write(templates.HEADER)
+            f.write(templates.MODELPARAMETERS_H.format(**config))
+
+        # Create modelparameters.cc
+        with open(os.path.join(self.projdir, "modelparameters.cc"), "w") as f:
+            f.write(templates.HEADER)
+            f.write(templates.MODELPARAMETERS_CC.format(**config))
+
+        # Create modelfunctions.h
+        with open(os.path.join(self.projdir, "modelfunctions.h"), "w") as f:
+            f.write(templates.MODELFUNCTIONS_H.format(**config))
+
+        # Create modelpriors
+        bounds_spec, priors_spec = "", ""
+        for idx, param in enumerate(config["params"]):
+            bounds_spec += f"bounds[{idx}]=({param['lbound']}, {param['ubound']})\n"
+            if param["prior"] != "None":
+                priors_spec += f"priors[{idx}]={param['prior']}\n"
+        config["bounds_spec"] = bounds_spec
+        config["priors_spec"] = priors_spec
+        with open(os.path.join(self.projdir, "modelpriors"), "w") as f:
+            f.write(templates.HEADER)
+            f.write(templates.MODELPRIORS.format(**config))
+
+        # Create support files
+        for fname, code in config["support_files"].items():
+            with open(os.path.join(self.projdir, fname), "w") as f:
+                f.write(code)
+
+        # Create Makefile
+        with open(os.path.join(self.projdir, "Makefile"), "w") as f:
+            f.write(templates.MAKEFILE.format(**config))
 
 def main():
     """

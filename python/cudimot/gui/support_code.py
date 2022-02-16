@@ -45,7 +45,7 @@ class SupportCode(TabPage):
     def config(self):
         return {
             "code_%s" % self.name : self.code.GetValue(),
-            "includes" : {f : e.GetValue() for f, e in self.include_editors.items()},
+            "support_files" : {f : e.GetValue() for f, e in self.include_editors.items()},
         }
 
     def load(self, projdir):
