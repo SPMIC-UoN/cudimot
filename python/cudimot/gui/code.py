@@ -74,7 +74,7 @@ class UserCode(TabPage):
         self.boilerplate=boilerplate
 
         self.section(title)
-        self.pack("", wx.StaticText(self, label=help))
+        self.pack("", wx.StaticText(self, label=help), span=3)
         self.code = CodeEditor(self)
         self.code.SetText(boilerplate)
         self.pack("", self.code, span=3, expand=True)

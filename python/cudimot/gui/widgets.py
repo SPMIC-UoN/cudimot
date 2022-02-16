@@ -330,7 +330,7 @@ class ParameterList(wx.Panel):
         self.nparams = 0
         self.variable = variable
 
-        self.sizer = wx.BoxSizer(wx.VERTICAL)
+        self.sizer = wx.BoxSizer(wx.HORIZONTAL)
 
         self.grid = wx.grid.Grid(self)
         self.grid.SetRowLabelSize(0)
@@ -354,9 +354,9 @@ class ParameterList(wx.Panel):
         self.AddParameter()
         self.grid.Fit()
         #self.grid.Bind(wx.EVT_SIZE, self._on_size)
-        self.sizer.Add(self.grid, 1, wx.EXPAND)
+        self.sizer.Add(self.grid, 1, wx.EXPAND | wx.ALL, 5)
 
-        self.button_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.button_sizer = wx.BoxSizer(wx.VERTICAL)
         self.add = wx.Button(self, label="Add")
         self.button_sizer.Add(self.add)
         self.add.Bind(wx.EVT_BUTTON, self.AddParameter)
@@ -364,7 +364,7 @@ class ParameterList(wx.Panel):
         self.button_sizer.Add(self.delete)
         self.delete.Bind(wx.EVT_BUTTON, self.DeleteSelectedParameters)
         
-        self.sizer.Add(self.button_sizer)
+        self.sizer.Add(self.button_sizer, 0, wx.ALL, 5)
 
         #self.SetNumValues(size)
         #self.Bind(wx.EVT_SIZE, self._on_size)
@@ -428,7 +428,7 @@ class ParameterList(wx.Panel):
 
     def ResizeCols(self, width):
         num_width = 100
-        name_width = max(100, width - num_width*(1 if not self.variable else 4))
+        name_width = max(100, width - self.button_sizer.GetSize()[0] - 20 - num_width*(1 if not self.variable else 4))
         self.grid.SetColSize(0, name_width)
         self.grid.SetColSize(1, num_width)
         if self.variable:
