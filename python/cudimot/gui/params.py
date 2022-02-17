@@ -41,6 +41,11 @@ class ModelParameters(TabPage):
             table.ResizeCols(width)
         event.Skip()
 
+    def reset(self, projdir):
+        self.ptables[0].ClearParameters()
+        self.ptables[1].ClearParameters()
+        self.ptables[2].ClearParameters()
+
     def config(self):
         config = {
             "params" : self.ptables[0].GetParameters(),
@@ -49,7 +54,6 @@ class ModelParameters(TabPage):
         }
         for idx, ptype in enumerate(["param", "cfp", "vfp"]):
             params = self.ptables[idx].GetParameters()
-            print(f"parameters: {idx} {ptype} {params}")
             config[f"n_{ptype}"] = len(params)
             if params:
                 for key in params[0].keys():

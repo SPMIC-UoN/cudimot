@@ -30,4 +30,4 @@ class CustomPriors(UserCode):
     """
 
     def __init__(self, app, parent, idx, n):
-        UserCode.__init__(self, app, parent, "Custom priors", idx, n, name="custom_priors", function_names=["custom_priors"], help=HELP, boilerplate=BOILERPLATE)
+        UserCode.__init__(self, app, parent, "Custom priors", idx, n, name="custom_priors", function_name="custom_priors", help=HELP, boilerplate=BOILERPLATE)

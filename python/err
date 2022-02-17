@@ -1,0 +1,732 @@
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:26:59.071: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:26:59.071: Error loading theme icon 'gtk-cancel' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:26:59.071: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:26:59.071: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.565: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:02.565: Error loading theme icon 'edit-find' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:02.565: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:02.565: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.566: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.566: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:02.566: Error loading theme icon 'text-x-generic' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:02.566: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:02.566: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.567: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.570: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:02.570: Error loading theme icon 'edit-find' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:02.570: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:02.570: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.570: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.570: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:02.570: Error loading theme icon 'text-x-generic' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:02.570: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:02.570: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.570: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.571: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:02.571: Error loading theme icon 'edit-find' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:02.571: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:02.571: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.571: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.571: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:02.571: Error loading theme icon 'text-x-generic' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:02.571: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:02.571: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.571: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.572: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:02.572: Error loading theme icon 'gtk-cancel' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:02.572: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:02.572: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.573: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:02.573: Error loading theme icon 'document-open' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:02.573: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:02.573: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.573: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:02.573: Error loading theme icon 'gtk-edit' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:02.573: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:02.573: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.573: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:02.573: Error loading theme icon 'folder' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:02.573: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:02.573: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.575: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.575: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:02.575: Error loading theme icon 'image-missing' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:02.575: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:02.575: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.575: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.575: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:02.575: Error loading theme icon 'image-missing' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:02.575: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:02.575: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.581: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.581: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.582: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.582: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.582: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.605: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.605: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:02.605: Error loading theme icon 'image-missing' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:02.605: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:02.605: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.606: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.607: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:02.607: Error loading theme icon 'image-missing' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:02.607: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:02.607: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.607: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.607: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:02.607: Error loading theme icon 'image-missing' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:02.607: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:02.607: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.607: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.607: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:02.607: Error loading theme icon 'image-missing' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:02.607: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:02.607: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.607: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:02.607: Error loading theme icon 'document-open' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:02.607: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:02.607: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.607: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:02.608: Error loading theme icon 'gtk-cancel' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:02.608: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:02.608: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.608: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.608: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:02.608: Error loading theme icon 'image-missing' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:02.608: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:02.608: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.609: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.609: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:02.609: Error loading theme icon 'image-missing' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:02.609: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:02.609: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:02.609: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.609: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:02.609: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.385: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.385: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:03.385: Error loading theme icon 'image-missing' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:03.385: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:03.385: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:03.385: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.386: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.387: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:03.387: Error loading theme icon 'image-missing' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:03.387: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:03.387: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:03.387: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.387: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.388: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:03.388: Error loading theme icon 'image-missing' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:03.388: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:03.388: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:03.388: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.514: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.514: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:03.514: Error loading theme icon 'image-missing' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:03.515: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:03.515: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:03.515: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.517: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:03.517: Error loading theme icon 'gtk-edit' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:03.518: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:03.518: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.519: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.519: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:03.519: Error loading theme icon 'image-missing' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:03.519: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:03.519: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:03.519: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.525: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.525: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.533: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.533: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.540: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.540: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:03.540: Error loading theme icon 'image-missing' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:03.540: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:03.540: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:03.540: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.540: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.541: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.541: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.541: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.541: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.542: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.542: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.542: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.542: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.542: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.542: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.542: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.542: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.543: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.543: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.543: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.543: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.543: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.543: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.543: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.543: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.544: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.544: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.544: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.544: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.545: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:03.545: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:03.545: Error loading theme icon 'image-missing' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:03.545: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:03.545: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:03.545: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:04.344: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:04.344: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:04.362: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:04.362: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:04.363: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:04.365: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:04.365: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:04.365: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:04.365: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:04.366: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:04.366: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:04.366: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:04.366: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:04.366: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:04.367: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:04.367: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:04.367: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:04.367: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:04.368: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:04.368: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:04.368: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:04.369: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:04.369: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:04.370: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:04.370: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:04.370: Error loading theme icon 'image-missing' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:04.370: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:04.370: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:04.371: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:05.245: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:05.246: Error loading theme icon 'document-open' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:05.246: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:05.246: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:05.364: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:05.364: Error loading theme icon 'document-open' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:05.364: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:05.364: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+/home/martin/miniconda3/envs/fslpy/lib/python3.8/site-packages/wx/lib/pubsub/__init__.py:23: wxPyDeprecationWarning: wx.lib.pubsub has been deprecated, plese migrate your code to use pypubsub, available on PyPI.
+  warnings.warn('wx.lib.pubsub has been deprecated, plese migrate your '
+Traceback (most recent call last):
+  File "/home/martin/code/cudimot/python/cudimot/gui/project.py", line 41, in _open
+    self.app.load(self.projdir.GetPath())
+  File "/home/martin/code/cudimot/python/cudimot/gui/main.py", line 85, in load
+    self.notebook.GetPage(idx).load(projdir)
+  File "/home/martin/code/cudimot/python/cudimot/gui/project.py", line 45, in load
+    precision = self.config_from_line_regex(os.path.join(projdir, "modelparameters.h"), 
+TypeError: config_from_line_regex() missing 1 required positional argument: 'line_regex'
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:05.502: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.588: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:13.588: Error loading theme icon 'edit-find' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:13.588: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:13.588: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.588: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.588: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:13.588: Error loading theme icon 'text-x-generic' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:13.588: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:13.588: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.589: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.590: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:13.590: Error loading theme icon 'edit-find' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:13.590: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:13.590: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.590: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.591: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:13.591: Error loading theme icon 'text-x-generic' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:13.591: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:13.591: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.591: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.591: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:13.591: Error loading theme icon 'edit-find' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:13.591: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:13.591: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.591: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.591: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:13.591: Error loading theme icon 'text-x-generic' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:13.591: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:13.591: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.591: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.592: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:13.592: Error loading theme icon 'gtk-cancel' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:13.592: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:13.592: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.593: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:13.593: Error loading theme icon 'document-open' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:13.593: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:13.593: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.593: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:13.593: Error loading theme icon 'gtk-edit' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:13.593: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:13.593: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.593: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:13.593: Error loading theme icon 'folder' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:13.593: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:13.593: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.594: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.594: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:13.595: Error loading theme icon 'image-missing' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:13.595: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:13.595: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:13.595: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.595: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.595: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:13.595: Error loading theme icon 'image-missing' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:13.595: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:13.595: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:13.595: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.599: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.599: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.600: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.600: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.600: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.601: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.601: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.622: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.622: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.622: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.630: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:13.630: Error loading theme icon 'gtk-edit' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:13.630: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:13.630: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.631: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.631: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:13.631: Error loading theme icon 'image-missing' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:13.631: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:13.631: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:13.631: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.631: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.631: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:13.631: Error loading theme icon 'image-missing' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:13.631: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:13.631: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:13.631: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.632: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:13.632: Error loading theme icon 'document-open' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:13.632: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:13.632: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.632: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:13.632: Error loading theme icon 'gtk-cancel' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:13.632: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:13.632: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.632: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.632: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.633: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.633: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.633: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.633: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.633: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.633: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.633: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.633: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.634: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.634: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.635: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.635: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.635: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.635: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.636: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:13.637: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:14.400: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:14.400: Error loading theme icon 'gtk-cancel' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:14.400: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:14.400: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:14.482: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:14.482: Error loading theme icon 'gtk-cancel' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:14.482: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:14.483: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:14.907: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:14.907: Error loading theme icon 'document-open' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:14.907: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:14.908: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:15.057: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:15.057: Error loading theme icon 'document-open' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:15.057: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:15.057: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:15.057: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:15.148: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:15.148: Error loading theme icon 'document-open' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:15.148: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:15.148: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:15.148: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:15.261: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed
+
+(cudimot_gui:4262): Gtk-WARNING **: 15:27:15.261: Error loading theme icon 'document-open' for stock: Failed to load icon
+
+(cudimot_gui:4262): Gtk-CRITICAL **: 15:27:15.261: render_fallback_image: assertion 'pixbuf != NULL' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:15.261: g_object_ref: assertion 'G_IS_OBJECT (object)' failed
+
+(cudimot_gui:4262): GLib-GObject-CRITICAL **: 15:27:15.261: g_object_unref: assertion 'G_IS_OBJECT (object)' failed
+Traceback (most recent call last):
+  File "/home/martin/code/cudimot/python/cudimot/gui/project.py", line 41, in _open
+    self.app.load(self.projdir.GetPath())
+  File "/home/martin/code/cudimot/python/cudimot/gui/main.py", line 85, in load
+    self.notebook.GetPage(idx).load(projdir)
+  File "/home/martin/code/cudimot/python/cudimot/gui/project.py", line 45, in load
+    precision = self.config_from_line_regex(os.path.join(projdir, "modelparameters.h"), 
+TypeError: config_from_line_regex() missing 1 required positional argument: 'line_regex'
+
+(cudimot_gui:4262): GLib-GIO-CRITICAL **: 15:27:15.396: g_loadable_icon_load: assertion 'G_IS_LOADABLE_ICON (icon)' failed

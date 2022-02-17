@@ -28,6 +28,10 @@ class ProjectOptions(TabPage):
         self.add_next_prev_btn()
         self.Layout()
 
+    def reset(self, projdir):
+        self.projdir.SetValue(projdir)
+        self.model_name.SetValue(os.path.basename(projdir))
+
     def config(self):
         precision = self.precision.GetString(self.precision.GetSelection())
         return {

@@ -8,6 +8,7 @@ create and compile their own models using the CUDIMOT framework
 import sys
 import os
 import traceback
+import yaml
 
 import wx
 import wx.grid
@@ -21,7 +22,7 @@ from .derivatives import DerivativesLM
 from .constraints_lm import ConstraintsLM
 from .custom_priors import CustomPriors
 from .support_code import SupportCode
-from .loadsave import save_project
+import cudimot.gui.code_templates as templates
 
 class CudimotGui(wx.Frame):
     """
@@ -31,6 +32,7 @@ class CudimotGui(wx.Frame):
     def __init__(self):
         # Initialize main window title, icon etc and vertical box sizer
         wx.Frame.__init__(self, None, title="CUDIMOT", style=wx.DEFAULT_FRAME_STYLE)
+        self.projdir = ""
         icon_fname = os.path.join(os.path.abspath(os.path.dirname(__file__)), "cudimot.png")
         self.SetIcon(wx.Icon(icon_fname))
         main_panel = wx.Panel(self)
@@ -52,6 +54,8 @@ class CudimotGui(wx.Frame):
         for idx, cls in enumerate(tabs):
             tab = cls(self, self.notebook, idx, len(tabs))
             self.notebook.AddPage(tab, tab.title)
+            tab.Enable(False)
+        self.notebook.SendSizeEvent()
 
         # Save/Create/Compile buttons at bottom of window
         line = wx.StaticLine(main_panel, style=wx.LI_HORIZONTAL)
@@ -60,36 +64,92 @@ class CudimotGui(wx.Frame):
         bottom_panel = wx.Panel(main_panel)
         bottom_sizer = wx.BoxSizer(wx.HORIZONTAL)
         bottom_panel.SetSizer(bottom_sizer)
-        
-        self.save_btn = wx.Button(bottom_panel, label="Open")
-        bottom_sizer.Add(self.save_btn, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
-        self.save_btn.Bind(wx.EVT_BUTTON, self._open)
+
+        self.new_btn = wx.Button(bottom_panel, label="New")
+        bottom_sizer.Add(self.new_btn, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+        self.new_btn.Bind(wx.EVT_BUTTON, self._new)
+        self.open_btn = wx.Button(bottom_panel, label="Open")
+        bottom_sizer.Add(self.open_btn, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+        self.open_btn.Bind(wx.EVT_BUTTON, self._open)
         self.save_btn = wx.Button(bottom_panel, label="Save")
-        bottom_sizer.Add(self.save_btn, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+        self.save_btn.Enable(False)
         self.save_btn.Bind(wx.EVT_BUTTON, self._save)
+        bottom_sizer.Add(self.save_btn, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+        self.save_as_btn = wx.Button(bottom_panel, label="Save As")
+        self.save_as_btn.Enable(False)
+        self.save_as_btn.Bind(wx.EVT_BUTTON, self._save_as)
+        bottom_sizer.Add(self.save_as_btn, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
         self.compile_btn = wx.Button(bottom_panel, label="Build")
+        self.compile_btn.Enable(False)
+        #self.compile_btn.Bind(wx.EVT_BUTTON, self._build)
         bottom_sizer.Add(self.compile_btn, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
         self.status = wx.StaticText(bottom_panel, label="")
         self.status.SetFont(wx.Font(12, wx.DEFAULT, wx.NORMAL, wx.BOLD))
-        bottom_sizer.Add(self.status, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
-        #self.run_btn.Bind(wx.EVT_BUTTON, self._build)
-        main_vsizer.Add(bottom_panel, 0, wx.EXPAND)
+        bottom_sizer.Add(self.status, 1, wx.EXPAND | wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+        self.settings_btn = wx.Button(bottom_panel, label="Settings")
+        self.settings_btn.Enable(False)
+        #self.settings_btn.Bind(wx.EVT_BUTTON, self._settings)
+        bottom_sizer.Add(self.settings_btn, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+        main_vsizer.Add(bottom_panel, 0)
 
         #self.SetMinSize(self.GetSize())
         #self.SetMaxSize(self.GetSize())
         main_panel.SetSizerAndFit(main_vsizer)
         self.Fit()
 
+    def _new(self, evt=None):
+        with wx.DirDialog(self, "Select project folder") as fileDialog:
+            if fileDialog.ShowModal() == wx.ID_CANCEL:
+                return
+
+            projdir = fileDialog.GetPath()
+            if os.path.exists(projdir) and os.listdir(projdir):
+                with wx.MessageDialog(self, "Directory is not empty - Overwrite?", caption="Confirm",
+                                        style=wx.OK|wx.CANCEL) as confirm_dialog:
+                    if confirm_dialog.ShowModal() == wx.ID_CANCEL:
+                        return
+
+            self.projdir = projdir
+            for idx in range(self.notebook.PageCount):
+                page = self.notebook.GetPage(idx)
+                page.Enable(True)
+                page.reset(self.projdir)
+            self.save_btn.Enable(True)
+            self.save_as_btn.Enable(True)
+
     def _open(self, evt=None):
         with wx.DirDialog(self, "Open project folder",
                        style=wx.DD_DIR_MUST_EXIST) as fileDialog:
-            if fileDialog.ShowModal() != wx.ID_CANCEL:
-                projdir = fileDialog.GetPath()
-                #config = {}
-                for idx in range(self.notebook.PageCount):
-                    self.notebook.GetPage(idx).load(projdir)
-                    #config.update(self.notebook.GetPage(idx).config())
-                #print("Loaded: ", config)
+            if fileDialog.ShowModal() == wx.ID_CANCEL:
+                return
+
+            self.projdir = fileDialog.GetPath()
+            for idx in range(self.notebook.PageCount):
+                page = self.notebook.GetPage(idx)
+                page.Enable(True)
+                page.load(self.projdir)
+            self.save_btn.Enable(True)
+            self.save_as_btn.Enable(True)
+
+    def _save_as(self, _event=None):
+        """
+        Save project in a new location
+        """
+        with wx.DirDialog(self, "Select save folder") as fileDialog:
+            if fileDialog.ShowModal() == wx.ID_CANCEL:
+                return
+
+            projdir = fileDialog.GetPath()
+            if os.path.exists(projdir) and os.listdir(projdir):
+                with wx.MessageDialog(self, "Directory is not empty - Overwrite?", caption="Confirm",
+                                      style=wx.OK|wx.CANCEL) as confirm_dialog:
+                    if confirm_dialog.ShowModal() == wx.ID_CANCEL:
+                        return
+
+            self.projdir = projdir
+            # FIXME hack
+            self.notebook.GetPage(0).projdir.SetValue(self.projdir)
+            self._save()
 
     def _save(self, _event=None):
         """
@@ -98,22 +158,53 @@ class CudimotGui(wx.Frame):
         We save the project configuration in a YAML file and also autogenerate the
         code from it
         """
-        with wx.DirDialog(self, "Select save folder") as fileDialog:
-            if fileDialog.ShowModal() != wx.ID_CANCEL:
-                projdir = fileDialog.GetPath()
-                if os.path.exists(projdir):
-                    with wx.MessageDialog(self, "Directory already exists - Overwrite?", caption="Confirm",
-                                          style=wx.OK|wx.CANCEL) as confirm_dialog:
-                        if confirm_dialog.ShowModal() == wx.ID_CANCEL:
-                            return
-            
-                # FIXME hack
-                self.notebook.GetPage(0).projdir.SetValue(projdir)
-                config = {}
-                for idx in range(self.notebook.PageCount):
-                    config.update(self.notebook.GetPage(idx).config())
-                print(config)
-                save_project(projdir, config)
+        config = {}
+        for idx in range(self.notebook.PageCount):
+            config.update(self.notebook.GetPage(idx).config())
+        print(config)
+
+        if not os.path.exists(self.projdir):
+            os.makedirs(self.projdir)
+        elif not os.path.isdir(self.projdir):
+            raise ValueError(f"{self.projdir} already exists and is not a directory")
+
+        with open(os.path.join(self.projdir, "cudimot_config.yml"), "w") as f:
+            f.write(yaml.dump(config))
+
+        # Create modelparameters.h
+        with open(os.path.join(self.projdir, "modelparameters.h"), "w") as f:
+            f.write(templates.HEADER)
+            f.write(templates.MODELPARAMETERS_H.format(**config))
+
+        # Create modelparameters.cc
+        with open(os.path.join(self.projdir, "modelparameters.cc"), "w") as f:
+            f.write(templates.HEADER)
+            f.write(templates.MODELPARAMETERS_CC.format(**config))
+
+        # Create modelfunctions.h
+        with open(os.path.join(self.projdir, "modelfunctions.h"), "w") as f:
+            f.write(templates.MODELFUNCTIONS_H.format(**config))
+
+        # Create modelpriors
+        bounds_spec, priors_spec = "", ""
+        for idx, param in enumerate(config["params"]):
+            bounds_spec += f"bounds[{idx}]=({param['lbound']}, {param['ubound']})\n"
+            if param["prior"] != "None":
+                priors_spec += f"priors[{idx}]={param['prior']}\n"
+        config["bounds_spec"] = bounds_spec
+        config["priors_spec"] = priors_spec
+        with open(os.path.join(self.projdir, "modelpriors"), "w") as f:
+            f.write(templates.HEADER)
+            f.write(templates.MODELPRIORS.format(**config))
+
+        # Create support files
+        for fname, code in config["support_files"].items():
+            with open(os.path.join(self.projdir, fname), "w") as f:
+                f.write(code)
+
+        # Create Makefile
+        with open(os.path.join(self.projdir, "Makefile"), "w") as f:
+            f.write(templates.MAKEFILE.format(**config))
 
 def main():
     """

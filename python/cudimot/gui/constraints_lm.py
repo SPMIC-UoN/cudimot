@@ -23,4 +23,4 @@ class ConstraintsLM(UserCode):
     """
 
     def __init__(self, app, parent, idx, n):
-        UserCode.__init__(self, app, parent, "LM constraints", idx, n, name="constraints_lm", function_names=["FixConstraintsLM"], help=HELP, boilerplate=BOILERPLATE)
+        UserCode.__init__(self, app, parent, "LM constraints", idx, n, name="constraints_lm", function_name="FixConstraintsLM", help=HELP, boilerplate=BOILERPLATE)
