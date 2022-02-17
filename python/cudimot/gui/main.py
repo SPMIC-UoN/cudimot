@@ -22,6 +22,7 @@ from .derivatives import DerivativesLM
 from .constraints_lm import ConstraintsLM
 from .custom_priors import CustomPriors
 from .support_code import SupportCode
+from .settings import SettingsDialog
 import cudimot.gui.code_templates as templates
 
 class CudimotGui(wx.Frame):
@@ -33,6 +34,12 @@ class CudimotGui(wx.Frame):
         # Initialize main window title, icon etc and vertical box sizer
         wx.Frame.__init__(self, None, title="CUDIMOT", style=wx.DEFAULT_FRAME_STYLE)
         self.projdir = ""
+        self.fsldir = os.environ.get("FSLDIR", "")
+        self.settings = {
+            "fsldir" : self.fsldir,
+            "bindir" : os.path.join(self.fsldir, "bin"),
+            "srcdir" : os.path.join(self.fsldir, "src", "cudimot"),
+        }
         icon_fname = os.path.join(os.path.abspath(os.path.dirname(__file__)), "cudimot.png")
         self.SetIcon(wx.Icon(icon_fname))
         main_panel = wx.Panel(self)
@@ -87,8 +94,8 @@ class CudimotGui(wx.Frame):
         self.status.SetFont(wx.Font(12, wx.DEFAULT, wx.NORMAL, wx.BOLD))
         bottom_sizer.Add(self.status, 1, wx.EXPAND | wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
         self.settings_btn = wx.Button(bottom_panel, label="Settings")
-        self.settings_btn.Enable(False)
-        #self.settings_btn.Bind(wx.EVT_BUTTON, self._settings)
+        self.settings_btn.Enable(True)
+        self.settings_btn.Bind(wx.EVT_BUTTON, self._settings)
         bottom_sizer.Add(self.settings_btn, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
         main_vsizer.Add(bottom_panel, 0)
 
@@ -96,6 +103,13 @@ class CudimotGui(wx.Frame):
         #self.SetMaxSize(self.GetSize())
         main_panel.SetSizerAndFit(main_vsizer)
         self.Fit()
+
+    def _settings(self, evt=None):
+        with SettingsDialog(self, self.settings) as dialog:
+            if dialog.ShowModal() == wx.ID_CANCEL:
+                return
+            self.settings = dialog.config()
+            print(self.settings)
 
     def _new(self, evt=None):
         with wx.DirDialog(self, "Select project folder") as fileDialog:
@@ -158,7 +172,7 @@ class CudimotGui(wx.Frame):
         We save the project configuration in a YAML file and also autogenerate the
         code from it
         """
-        config = {}
+        config = dict(self.settings)
         for idx in range(self.notebook.PageCount):
             config.update(self.notebook.GetPage(idx).config())
         print(config)
@@ -205,6 +219,8 @@ class CudimotGui(wx.Frame):
         # Create Makefile
         with open(os.path.join(self.projdir, "Makefile"), "w") as f:
             f.write(templates.MAKEFILE.format(**config))
+
+        # Create wrapper scripts
 
 def main():
     """
