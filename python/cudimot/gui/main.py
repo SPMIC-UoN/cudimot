@@ -182,6 +182,7 @@ class CudimotGui(wx.Frame):
         elif not os.path.isdir(self.projdir):
             raise ValueError(f"{self.projdir} already exists and is not a directory")
 
+        # YAML config - FIXME do we need this or does it just muddy the waters
         with open(os.path.join(self.projdir, "cudimot_config.yml"), "w") as f:
             f.write(yaml.dump(config))
 
@@ -198,6 +199,10 @@ class CudimotGui(wx.Frame):
         # Create modelfunctions.h
         with open(os.path.join(self.projdir, "modelfunctions.h"), "w") as f:
             f.write(templates.MODELFUNCTIONS_H.format(**config))
+
+        # Create model info
+        with open(os.path.join(self.projdir, f"{config['name']}.info"), "w") as f:
+            f.write(templates.MODELINFO.format(**config))
 
         # Create modelpriors
         bounds_spec, priors_spec = "", ""
@@ -221,6 +226,9 @@ class CudimotGui(wx.Frame):
             f.write(templates.MAKEFILE.format(**config))
 
         # Create wrapper scripts
+        # FIXME this is the 'generic script' also finish script?
+        with open(os.path.join(self.projdir, f"cudimot_{config['name']}.sh"), "w") as f:
+            f.write(templates.WRAPPER_SCRIPT.format(**config))
 
 def main():
     """
