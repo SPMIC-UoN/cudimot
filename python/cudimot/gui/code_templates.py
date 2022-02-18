@@ -128,7 +128,7 @@ include $(FSLCONFDIR)/default.mk
 PROJNAME = cudimot
 MODELNAME = {name}
 MODELDIR = {projdir}
-CUDIMOT_SRCDIR = $(MODELDIR)/../..
+CUDIMOT_SRCDIR = {srcdir}
 
 LIBS     = -lfsl-warpfns -lfsl-basisfield -lfsl-meshclass  \\
            -lfsl-newimage -lfsl-miscmaths -lfsl-NewNifti   \\
@@ -137,7 +137,7 @@ LIBS     = -lfsl-warpfns -lfsl-basisfield -lfsl-meshclass  \\
 USRINCFLAGS = -I$(MODELDIR) -I$(FSLDIR)/include/armawrap
 
 CUDIMOT_CUDA_OBJS = \\
-    $(MODELDIR)/modelparameters.o \\
+    modelparameters.o \\
     init_gpu.o \\
     dMRI_Data.o \\
     Model.o \\
@@ -153,16 +153,10 @@ CUDIMOT_OBJS = \\
     cudimotoptions.o
 
 SCRIPTS  = \\
-    $(CUDIMOT_SRCDIR)/utils/Run_dtifit.sh \\
-    $(CUDIMOT_SRCDIR)/utils/jobs_wrapper.sh \\
-    $(CUDIMOT_SRCDIR)/utils/initialise_Bingham.sh \\
     $(MODELDIR)/$(MODELNAME)_finish.sh \\
     $(MODELDIR)/Pipeline_$(MODELNAME).sh
 
 XFILES   = \\
-    cart2spherical \\
-    getFanningOrientation \\
-    initialise_Psi \\
     $(MODELNAME) \\
     cudimot_$(MODELNAME).sh \\
     merge_parts_$(MODELNAME) \\
