@@ -85,7 +85,7 @@ class CudimotGui(wx.Frame):
         bottom_sizer.Add(self.compile_btn, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
         self.status = wx.StaticText(bottom_panel, label="")
         self.status.SetFont(wx.Font(12, wx.DEFAULT, wx.NORMAL, wx.BOLD))
-        bottom_sizer.Add(self.status, 1, wx.EXPAND | wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+        bottom_sizer.Add(self.status, 1, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
         self.settings_btn = wx.Button(bottom_panel, label="Settings")
         self.settings_btn.Enable(False)
         #self.settings_btn.Bind(wx.EVT_BUTTON, self._settings)
