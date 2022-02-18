@@ -38,6 +38,38 @@ struct MODEL
 #endif
 """
 
+MODELINFO = """\
+---------------------------------------------
+---------------- NPARAMETERS  ---------------
+---------------------------------------------
+#define NPARAMS {n_param} // {param_names}
+#define NCFP {n_cfp} // {cfp_names}
+#define NFIXP {n_vfp} // {vfp_names}
+
+int MODEL::CFP_size[] = {{{cfp_sizes}}};
+int MODEL::FixP_size[] = {{{vfp_sizes}}};
+---------------------------------------------
+
+typedef {dtype} MyType;
+
+echo "-------------------------------------------------------------" >> $infoFile
+echo "--- Predicted Signal, Constraints & Derivatives Functions ---" >> $infoFile
+echo "--- FILE: "$functionsFile" ---" >> $infoFile
+echo "-------------------------------------------------------------" >> $infoFile
+
+{code_support}
+
+{code_fwdmodel}
+
+{code_constraints_mcmc}
+
+{code_derivatives_lm}
+
+{code_constraints_lm}
+
+{code_custom_priors}
+"""
+
 MODELPARAMETERS_CC = """\
 #include "modelparameters.h"
 
@@ -174,12 +206,493 @@ split_parts_$(MODELNAME): $(CUDIMOT_SRCDIR)/split_parts.cc cudimotoptions.o $(CU
 testFunctions_$(MODELNAME): $(CUDIMOT_SRCDIR)/testFunctions.cu $(MODELDIR)/modelparameters.o
 	$(NVCC) $(NVCCFLAGS) $(NVCCLDFLAGS) -o $@ $^
 
-cudimot_$(MODELNAME).sh : $(MODELNAME)
-	$(CUDIMOT_SRCDIR)/generate_wrapper.sh $(MODELNAME)
-
-$(MODELNAME).info : cudimot_$(MODELNAME).sh
-	$(CUDIMOT_SRCDIR)/generate_info.sh $(MODELNAME)
-
 $(MODELNAME)_priors:
 	cp $(MODELDIR)/modelpriors $@
+"""
+
+WRAPPER_SCRIPT = """
+#!/bin/sh
+#
+# Created with CUDIMOT: Copyright (C) 2004 University of Oxford
+# Moises Hernandez-Fernandez - FMRIB Image Analysis Group
+#
+
+modelname={name}
+cudimotbindir={bindir}
+modelbindir=`dirname $0`
+
+if [ ! -f "$modelbindir/$modelname" ]; then
+    echo "No binaries found for model: $modelname in $modelbindir"
+    exit 1
+fi
+
+export LD_LIBRARY_PATH=${{LD_LIBRARY_PATH}}:${{FSLDIR}}/lib
+
+Usage() {{
+    echo ""
+    echo "Usage: cudimot <subject_directory> [options]"
+    echo ""
+    echo "expects to find data and nodif_brain_mask in subject directory"
+    echo ""
+    echo "<options>:"
+    echo "-waitfor (job_ID)"
+    echo "-Q (name of the GPU(s) queue, default cuda.q (defined in environment variable: FSLGECUDAQ)"
+    echo "-NJOBS (number of jobs to queue, the data is divided in NJOBS parts, usefull for a GPU cluster, default 4)"
+    echo "--no_LevMar (Do not run Levenberg-Marquardt)"
+    echo "--runMCMC (Run MCMC)"
+    echo "--CFP=filePath (Specify path of the file with the list of common fixed parameters ascii files)"
+    echo "--FixP=filePath (Specify path of the file with the list of fixed parameters NIfTI files)"
+    echo "-b (burnin period, default 5000)"
+    echo "-j (number of jumps, default 1250)"
+    echo "-s (sample every, default 25)"
+    echo ""
+    exit 1
+}}
+
+make_absolute(){{
+    dir=$1;
+    if [ -d ${{dir}} ]; then
+	OLDWD=`pwd`
+	cd ${{dir}}
+	dir_all=`pwd`
+	cd $OLDWD
+    else
+	dir_all=${{dir}}
+    fi
+    echo ${{dir_all}}
+}}
+
+[ "$1" = "" ] && Usage
+
+subjdir=`make_absolute $1`
+subjdir=`echo $subjdir | sed 's/\/$/$/g'`
+
+echo "---------------------------------------------------------------------------------"
+echo "------------------------------------ CUDIMOT ------------------------------------"
+echo "----------------------------- MODEL: $modelname -----------------------------"
+echo "---------------------------------------------------------------------------------"
+echo subjectdir is $subjdir
+
+#parse option arguments
+qsys=0
+njobs=4
+burnin=1000
+njumps=1250
+sampleevery=25
+other=""
+queue=""
+wait=""
+
+shift
+while [ ! -z "$1" ]
+do
+  case "$1" in
+  	  -waitfor) wait="-j $2";shift;;
+      -Q) queue="-q $2";shift;;
+      -NJOBS) njobs=$2;shift;;
+      -b) burnin=$2;shift;;
+      -j) njumps=$2;shift;;
+      -s) sampleevery=$2;shift;;
+      *) other=$other" "$1;;
+  esac
+  shift
+done
+
+#Set options
+opts="--bi=$burnin --nj=$njumps --se=$sampleevery"
+opts="$opts $other"
+
+if [ $qsys -eq 0 ] && [ "x$SGE_ROOT" != "x" ]; then
+	queue="-q $FSLGECUDAQ"
+fi
+
+
+#check that all required files exist
+
+if [ ! -d $subjdir ]; then
+	echo "subject directory $1 not found"
+	exit 1
+fi
+
+if [ `${{FSLDIR}}/bin/imtest ${{subjdir}}/data` -eq 0 ]; then
+	echo "${{subjdir}}/data not found"
+	exit 1
+fi
+
+if [ `${{FSLDIR}}/bin/imtest ${{subjdir}}/nodif_brain_mask` -eq 0 ]; then
+	echo "${{subjdir}}/nodif_brain_mask not found"
+	exit 1
+fi
+
+if [ -e ${{subjdir}}.${{modelname}}/xfms/eye.mat ]; then
+	echo "${{subjdir}} has already been processed: ${{subjdir}}.${{modelname}}." 
+	echo "Delete or rename ${{subjdir}}.${{modelname}} before repeating the process."
+	exit 1
+fi
+
+echo "Making output directory structure"
+
+mkdir -p ${{subjdir}}.${{modelname}}/
+mkdir -p ${{subjdir}}.${{modelname}}/diff_parts
+mkdir -p ${{subjdir}}.${{modelname}}/logs
+part=0
+
+#mkdir -p ${{subjdir}}.${{modelname}}/logs/logs_gpu
+partsdir=${{subjdir}}.${{modelname}}/diff_parts
+
+echo "Copying files to output directory"
+
+${{FSLDIR}}/bin/imcp ${{subjdir}}/nodif_brain_mask ${{subjdir}}.${{modelname}}
+if [ `${{FSLDIR}}/bin/imtest ${{subjdir}}/nodif` = 1 ] ; then
+    ${{FSLDIR}}/bin/fslmaths ${{subjdir}}/nodif -mas ${{subjdir}}/nodif_brain_mask ${{subjdir}}.${{modelname}}/nodif_brain
+fi
+
+# Set more default options
+opts=$opts" --data=${{subjdir}}/data --maskfile=$subjdir.${{modelname}}/nodif_brain_mask --partsdir=$partsdir --outputdir=$subjdir.${{modelname}} --forcedir"
+
+# Split the dataset in parts
+echo "Pre-processing stage"
+	PreprocOpts=$opts" --idPart=0 --nParts=$njobs --logdir=$subjdir.${{modelname}}/logs/preProcess"
+	preproc_command="$modelbindir/split_parts_${{modelname}} $PreprocOpts"
+
+	#SGE
+	preProcess=`${{FSLDIR}}/bin/fsl_sub $wait $queue -l ${{subjdir}}.${{modelname}}/logs -N ${{modelname}}_preproc $preproc_command`
+
+echo "Queuing Fitting model processing stage"
+
+	[ -f ${{subjdir}}.${{modelname}}/commands.txt ] && rm ${{subjdir}}.${{modelname}}/commands.txt
+
+	part=0
+	while [ $part -lt $njobs ]
+	do
+	    	partzp=`$FSLDIR/bin/zeropad $part 4`
+	    
+		Fitopts=$opts
+
+		#${{FSLDIR}}/bin/
+		echo "$modelbindir/${{modelname}} --idPart=$part --nParts=$njobs --logdir=$subjdir.${{modelname}}/logs/${{modelname}}_$partzp $Fitopts" >> ${{subjdir}}.${{modelname}}/commands.txt
+	    
+	    	part=$(($part + 1))
+	done
+
+	#SGE
+	FitProcess=`${{FSLDIR}}/bin/fsl_sub $queue -N ${{modelname}} -j $preProcess -t ${{subjdir}}.${{modelname}}/commands.txt -l ${{subjdir}}.${{modelname}}/logs`
+
+echo Queuing Post-processing stage
+# Needs the parent directory where all the output parts are stored $subjdir.${{modelname}}
+PostprocOpts=$opts" --idPart=0 --nParts=$njobs --logdir=$subjdir.${{modelname}}/logs/postProcess"
+
+postproc_command="$modelbindir/merge_parts_${{modelname}} $PostprocOpts"
+
+if [ $FitProcess -eq $FitProcess 2>/dev/null ]; then
+    #if not error in the prevoius fsl_sub, Fitprocess is a number
+    #SGE
+    postProcess=`${{FSLDIR}}/bin/fsl_sub $queue -j $FitProcess -N ${{modelname}}_postproc_gpu -l ${{subjdir}}.${{modelname}}/logs $postproc_command`
+fi
+"""
+
+# FIXME this seems to be NODDI_Watson specific
+PIPELINE_SCRIPT = """\
+#!/bin/sh
+#
+#   Moises Hernandez-Fernandez - FMRIB Image Analysis Group
+#
+#   Copyright (C) 2004 University of Oxford
+#
+#   SHCOPYRIGHT
+#
+# Pipeline for fitting NODDI-Watson 
+
+if [ -z "${CUDIMOT}" ]; then
+    if [ -z "${FSLDIR}" ]; then
+        echo ""
+        echo "Neither $FSLDIR nor $CUDIMOT are set - cannot find cudimot executable code"
+        exit 1
+    else
+        CUDIMOT=${FSLDIR}
+    fi
+fi
+
+bindir=${CUDIMOT}/bin
+
+make_absolute() {
+    dir=$1;
+    if [ -d ${dir} ]; then
+        OLDWD=`pwd`
+        cd ${dir}
+        dir_all=`pwd`
+        cd $OLDWD
+    else
+        dir_all=${dir}
+    fi
+    echo ${dir_all}
+}
+
+Usage() {
+    echo ""
+    echo "Usage: $0 <subject_directory> [options]"
+    echo ""
+    echo "expects to find data and nodif_brain_mask in subject directory"
+    echo ""
+    echo "<options>:"
+    echo "-Q (name of the GPU(s) queue, default cuda.q (defined in environment variable: FSLGECUDAQ)"
+    echo "-NJOBS (number of jobs to queue, the data is divided in NJOBS parts, usefull for a GPU cluster, default 4)"
+    echo "--runMCMC (if you want to run MCMC)"
+    echo "-b (burnin period, default 5000)"
+    echo "-j (number of jumps, default 1250)"
+    echo "-s (sample every, default 25)"
+    echo "--BIC_AIC (calculate BIC & AIC)"
+    echo ""
+    exit 1
+}
+
+[ "$1" = "" ] && Usage
+
+modelname={name}
+step1=GridSeach
+step2=FitFractions
+
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${FSLDIR}/lib
+
+subjdir=`make_absolute $1`
+subjdir=`echo $subjdir | sed 's/\/$/$/g'`
+
+echo "---------------------------------------------------------------------------------"
+echo "------------------------------------ CUDIMOT ------------------------------------"
+echo "----------------------------- MODEL: $modelname -----------------------------"
+echo "---------------------------------------------------------------------------------"
+echo subjectdir is $subjdir
+
+start=`date +%s`
+
+#parse option arguments
+njobs=4
+burnin=1000
+njumps=1250
+sampleevery=25
+other=""
+queue=""
+lastStepModelOpts=""
+
+shift
+while [ ! -z "$1" ]
+do
+  case "$1" in
+      -Q) queue="-q $2";shift;;
+      -NJOBS) njobs=$2;shift;;
+      -b) burnin=$2;shift;;
+      -j) njumps=$2;shift;;
+      -s) sampleevery=$2;shift;;
+      --runMCMC) lastStepModelOpts=$lastStepModelOpts" --runMCMC";;
+      --BIC_AIC) lastStepModelOpts=$lastStepModelOpts" --BIC_AIC";;
+      *) other=$other" "$1;;
+  esac
+  shift
+done
+
+#Set options
+opts="--bi=$burnin --nj=$njumps --se=$sampleevery"
+opts="$opts $other"
+
+if [ "x$SGE_ROOT" != "x" ]; then
+	queue="-q $FSLGECUDAQ"
+fi
+
+#check that all required files exist
+
+if [ ! -d $subjdir ]; then
+	echo "subject directory $1 not found"
+	exit 1
+fi
+
+if [ `${FSLDIR}/bin/imtest ${subjdir}/data` -eq 0 ]; then
+	echo "${subjdir}/data not found"
+	exit 1
+fi
+
+if [ `${FSLDIR}/bin/imtest ${subjdir}/nodif_brain_mask` -eq 0 ]; then
+	echo "${subjdir}/nodif_brain_mask not found"
+	exit 1
+fi
+
+if [ -e ${subjdir}.${modelname}/xfms/eye.mat ]; then
+	echo "${subjdir} has already been processed: ${subjdir}.${modelname}." 
+	echo "Delete or rename ${subjdir}.${modelname} before repeating the process."
+	exit 1
+fi
+
+echo Making output directory structure
+
+mkdir -p ${subjdir}.${modelname}/
+mkdir -p ${subjdir}.${modelname}/diff_parts
+mkdir -p ${subjdir}.${modelname}/logs
+mkdir -p ${subjdir}.${modelname}/Dtifit
+mkdir -p ${subjdir}.${modelname}/${step1}
+mkdir -p ${subjdir}.${modelname}/${step1}/diff_parts
+mkdir -p ${subjdir}.${modelname}/${step1}/logs
+mkdir -p ${subjdir}.${modelname}/${step2}
+mkdir -p ${subjdir}.${modelname}/${step2}/diff_parts
+mkdir -p ${subjdir}.${modelname}/${step2}/logs
+part=0
+
+echo Copying files to output directory
+
+${FSLDIR}/bin/imcp ${subjdir}/nodif_brain_mask ${subjdir}.${modelname}
+if [ `${FSLDIR}/bin/imtest ${subjdir}/nodif` = 1 ] ; then
+    ${FSLDIR}/bin/fslmaths ${subjdir}/nodif -mas ${subjdir}/nodif_brain_mask ${subjdir}.${modelname}/nodif_brain
+fi
+
+# Specify Common Fixed Parameters
+CFP_file=$subjdir.${modelname}/CFP
+cp ${subjdir}/bvecs $subjdir.${modelname}
+cp ${subjdir}/bvals $subjdir.${modelname}
+echo  $subjdir.${modelname}/bvecs > $CFP_file
+echo  $subjdir.${modelname}/bvals >> $CFP_file
+
+#Set more options
+opts=$opts" --data=${subjdir}/data --maskfile=$subjdir.${modelname}/nodif_brain_mask --forcedir --CFP=$CFP_file"
+
+# Calculate S0 with the mean of the volumes with bval<50
+bvals=`cat ${subjdir}/bvals`
+mkdir -p ${subjdir}.${modelname}/temporal
+pos=0
+for i in $bvals; do 
+    if [ $i -le 50 ]; then  
+       	fslroi ${subjdir}/data  ${subjdir}.${modelname}/temporal/volume_$pos $pos 1    
+    fi 
+    pos=$(($pos + 1))
+done
+fslmerge -t ${subjdir}.${modelname}/temporal/S0s ${subjdir}.${modelname}/temporal/volume*
+fslmaths ${subjdir}.${modelname}/temporal/S0s -Tmean ${subjdir}.${modelname}/S0
+rm -rf ${subjdir}.${modelname}/temporal
+
+# Specify Fixed parameters: S0
+FixPFile=${subjdir}.${modelname}/FixP
+echo ${subjdir}.${modelname}/S0 >> $FixPFile
+
+##############################################################################
+################################ First Dtifit  ###############################
+##############################################################################
+echo "Queue Dtifit"
+PathDTI=${subjdir}.${modelname}/Dtifit
+dtifit_command="${bindir}/Run_dtifit.sh ${subjdir} ${subjdir}.${modelname} ${bindir}"
+#SGE
+dtifitProcess=`${FSLDIR}/bin/fsl_sub $queue -l $PathDTI/logs -N dtifit $dtifit_command`
+
+##### Model Parameters: fiso, fintra, kappa, th, ph  ######
+#############################################################
+##################### Grid Search Step ######################
+#############################################################
+echo "Queue GridSearch process"
+PathStep1=$subjdir.${modelname}/${step1}
+
+# Create file to specify initialisation parameters (2 parameters: th,ph)
+InitializationFile=$PathStep1/InitializationParameters
+echo "" > $InitializationFile #fiso
+echo "" >> $InitializationFile #fintra
+echo "" >> $InitializationFile #kappa
+echo ${PathDTI}/dtifit_V1_th.nii.gz >> $InitializationFile #th
+echo ${PathDTI}/dtifit_V1_ph.nii.gz >> $InitializationFile #ph
+
+# Do GridSearch (fiso,fintra,kappa)
+GridFile=$PathStep1/GridSearch
+echo "search[0]=(0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0)" > $GridFile #fiso
+echo "search[1]=(0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0)" >> $GridFile #fintra
+echo "search[2]=(1,2,3,4,5,6,7,8)" >> $GridFile #kappa
+
+partsdir=$PathStep1/diff_parts
+outputdir=$PathStep1
+Step1Opts=$opts" --outputdir=$outputdir --partsdir=$partsdir --FixP=$FixPFile --gridSearch=$GridFile --no_LevMar --init_params=$InitializationFile --fixed=3,4"
+
+postproc=`${bindir}/jobs_wrapper.sh $PathStep1 $dtifitProcess $modelname GS $njobs $Step1Opts`
+
+###############################################################
+##################### Fit only Fractions ######################
+###############################################################
+echo "Queue Fitting Fractions process"
+PathStep2=$subjdir.${modelname}/${step2}
+
+# Create file to specify initialisation parameters (2 parameters: fiso,fintra)
+InitializationFile=$PathStep2/InitializationParameters
+echo $PathStep1/Param_0_samples > $InitializationFile #fiso
+echo $PathStep1/Param_1_samples >> $InitializationFile #fintra
+echo $PathStep1/Param_2_samples >> $InitializationFile #kappa
+echo ${PathDTI}/dtifit_V1_th.nii.gz >> $InitializationFile #th
+echo ${PathDTI}/dtifit_V1_ph.nii.gz >> $InitializationFile #ph
+
+partsdir=$PathStep2/diff_parts
+outputdir=$PathStep2
+Step2Opts=$opts" --outputdir=$outputdir --partsdir=$partsdir --FixP=$FixPFile --init_params=$InitializationFile --fixed=2,3,4"
+
+postproc=`${bindir}/jobs_wrapper.sh $PathStep2 $postproc $modelname FitFractions $njobs $Step2Opts`
+
+######################################################################################
+######################### Fit all the parameters of the Model ########################
+######################################################################################
+echo "Queue Fitting process"
+
+# Create file to specify initialization parameters (5 parameters: fiso,fintra,kappa,th,ph)
+InitializationFile=$subjdir.${modelname}/InitializationParameters
+echo $PathStep2/Param_0_samples > $InitializationFile #fiso
+echo $PathStep2/Param_1_samples >> $InitializationFile #fintra
+echo ${PathStep1}/Param_2_samples >> $InitializationFile #kappa
+echo ${PathDTI}/dtifit_V1_th.nii.gz >> $InitializationFile #th
+echo ${PathDTI}/dtifit_V1_ph.nii.gz  >> $InitializationFile #ph
+
+partsdir=${subjdir}.${modelname}/diff_parts
+outputdir=${subjdir}.${modelname}
+ModelOpts=$opts" --outputdir=$outputdir --partsdir=$partsdir --FixP=$FixPFile --init_params=$InitializationFile $lastStepModelOpts"
+
+postproc=`${bindir}/jobs_wrapper.sh ${subjdir}.${modelname} $postproc $modelname FitProcess $njobs $ModelOpts`
+
+#########################################
+### Calculate Dispersion Index & dyads ###
+##########################################
+finish_command="${bindir}/${modelname}_finish.sh ${subjdir}.${modelname}"
+#SGE
+finishProcess=`${FSLDIR}/bin/fsl_sub $queue -l ${subjdir}.${modelname}/logs -N ${modelname}_finish -j $postproc $finish_command`
+
+endt=`date +%s`
+runtime=$((endt-start))
+#echo Runtime $runtime
+echo Everything Queued
+"""
+
+FINISH_SCRIPT = """\
+#!/bin/sh
+#
+#   Moises Hernandez-Fernandez - FMRIB Image Analysis Group
+#
+#   Copyright (C) 2004 University of Oxford
+#
+#   SHCOPYRIGHT
+
+Usage() {
+    echo ""
+    echo "Usage: $0 <subject_directory>"
+    echo ""
+    echo "expects to find all the estimatedParameters and nodif_brain_mask in subject directory"
+    echo ""
+    exit 1
+}
+
+[ "$1" = "" ] && Usage
+
+directory=$1
+cd ${directory}
+
+mv $directory/Param_0_samples.nii.gz $directory/fiso_samples.nii.gz
+mv $directory/Param_1_samples.nii.gz $directory/fintra_samples.nii.gz
+mv $directory/Param_2_samples.nii.gz $directory/kappa_samples.nii.gz
+mv $directory/Param_3_samples.nii.gz $directory/th_samples.nii.gz
+mv $directory/Param_4_samples.nii.gz $directory/ph_samples.nii.gz
+
+Two_div_pi=0.636619772367581
+
+$FSLDIR/bin/fslmaths $directory/fiso_samples.nii.gz -Tmean $directory/mean_fiso
+$FSLDIR/bin/fslmaths $directory/fintra_samples.nii.gz -Tmean $directory/mean_fintra
+$FSLDIR/bin/fslmaths $directory/kappa_samples.nii.gz -Tmean $directory/mean_kappa
+$FSLDIR/bin/make_dyadic_vectors $directory/th_samples $directory/ph_samples $directory/nodif_brain_mask.nii.gz dyads1
+
+${FSLDIR}/bin/fslmaths $directory/mean_kappa -recip -atan -mul $Two_div_pi $directory/OD
 """
