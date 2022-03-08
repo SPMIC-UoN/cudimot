@@ -94,7 +94,8 @@ kwargs = {
     'packages' : find_packages(),
     'package_data' : {
         'cudimot.gui': [
-            'icon.png',
+            'cudimot.png',
+            'banner.png',
         ]
     },
     'entry_points' : {
