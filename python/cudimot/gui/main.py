@@ -32,9 +32,12 @@ class CudimotGui(wx.Frame):
 
     def __init__(self):
         # Initialize main window title, icon etc and vertical box sizer
-        wx.Frame.__init__(self, None, title="CUDIMOT", style=wx.DEFAULT_FRAME_STYLE)
+        wx.Frame.__init__(self, None, title="CUDIMOT", style=wx.DEFAULT_FRAME_STYLE, size=(1000, 600))
         self.projdir = ""
         self.fsldir = os.environ.get("FSLDIR", "")
+        if not self.fsldir:
+            print("FSLDIR is not set")
+            sys.exit(1)
         self.settings = {
             "fsldir" : self.fsldir,
             "bindir" : os.path.join(self.fsldir, "bin"),
@@ -102,7 +105,7 @@ class CudimotGui(wx.Frame):
         #self.SetMinSize(self.GetSize())
         #self.SetMaxSize(self.GetSize())
         main_panel.SetSizerAndFit(main_vsizer)
-        self.Fit()
+        #self.Fit()
 
     def _settings(self, evt=None):
         with SettingsDialog(self, self.settings) as dialog:
