@@ -59,7 +59,8 @@ class ModelParameters(TabPage):
                 for key in params[0].keys():
                     config[f"{ptype}_{key}s"] = ",".join([str(p[key]) for p in params])
             else:
-                config[f"{ptype}_names"] = []
+                config[f"{ptype}_names"] = ""
+                config[f"{ptype}_sizes"] = ""
         return config
 
     def load(self, projdir):
@@ -87,7 +88,7 @@ class ModelParameters(TabPage):
     def _parse_params(self, fname, label):
         nparams = self.config_from_line_regex("nparams", fname, 
                                               f"#define\s+{label}\s+(\d+)")
-        param_names = self.config_from_line_regex("nparams", fname, 
+        param_names = self.config_from_line_regex("param_names", fname, 
                                               f"#define\s+{label}\s+\d+\s*//\s*(.+)")
 
         try:
@@ -109,10 +110,14 @@ class ModelParameters(TabPage):
 
     def _parse_param_sizes(self, fname, label, nparams):
         sizes = self.config_from_line_regex("param_sizes", fname, 
-                                              f"int\s+MODEL::{label}_size\s*\[\]\s*=\s*{{([\d,]+)}};")
+                                              f"int\s+MODEL::{label}_size\s*\[\]\s*=\s*{{([\d,]*)}};")
         print(sizes)
         try:
-            sizes = [int(s) for s in sizes.split(",")]
+            if not sizes.strip():
+                sizes = []
+            else:
+                sizes = [int(s) for s in sizes.split(",")]
+            print(sizes)
             if len(sizes) != nparams:
                 print(f"Wrong number of parameter names: {nparams} vs {sizes}")
             for idx in range(len(sizes), nparams):
