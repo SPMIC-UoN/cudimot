@@ -56,6 +56,9 @@ class SupportCode(TabPage):
 
         self.code.SetValue(code)
 
+    def reset(self, projdir):
+        self.code.SetValue("")
+
     def _support_code(self, fname):
         patterns = [re.compile(f"^.*{name}\s*\(") for name in self.skip_functions]
         code, pre_func_comments = "", ""
