@@ -88,7 +88,7 @@ class SupportCode(TabPage):
                         code += line
 
         except FileNotFoundError:
-            print(f"Couldn't find expected file: {self.fname}")
+            print(f"Couldn't find expected file: {fname}")
             return None
         return code
         

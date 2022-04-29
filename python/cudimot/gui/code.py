@@ -139,6 +139,6 @@ class UserCode(TabPage):
                             in_function = False
 
         except FileNotFoundError:
-            print(f"Couldn't find expected file: {self.fname}")
+            print(f"Couldn't find expected file: {fname}")
             return None
         return code

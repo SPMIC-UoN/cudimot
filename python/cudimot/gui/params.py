@@ -61,6 +61,7 @@ class ModelParameters(TabPage):
             else:
                 config[f"{ptype}_names"] = ""
                 config[f"{ptype}_sizes"] = ""
+                config[f"{ptype}_inits"] = ""
         return config
 
     def load(self, projdir):
