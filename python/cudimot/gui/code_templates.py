@@ -200,6 +200,12 @@ split_parts_$(MODELNAME): $(CUDIMOT_SRCDIR)/split_parts.cc cudimotoptions.o $(CU
 testFunctions_$(MODELNAME): $(CUDIMOT_SRCDIR)/testFunctions.cu $(MODELDIR)/modelparameters.o
 	$(NVCC) $(NVCCFLAGS) $(NVCCLDFLAGS) -o $@ $^
 
+cudimot_$(MODELNAME).sh : $(MODELNAME)
+	$(CUDIMOT_SRCDIR)/generate_wrapper.sh $(MODELNAME)
+
+$(MODELNAME).info : cudimot_$(MODELNAME).sh
+	$(CUDIMOT_SRCDIR)/generate_info.sh $(MODELNAME) $(MODELDIR)
+
 $(MODELNAME)_priors:
 	cp $(MODELDIR)/modelpriors $@
 """
