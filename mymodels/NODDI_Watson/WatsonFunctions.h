@@ -109,7 +109,7 @@ MACRO void WatsonSHCoeff(T k, T* coeff)
     coeff[5] = (T)6.30113 + (T)6.09914*lnkd - (T)0.16088*lnkd2 - (T)1.05578*lnkd3 + (T)0.338069*lnkd4 + (T)0.0937157*lnkd5 - (T)0.106935*lnkd6;
     coeff[6] = (T)4.65678 + (T)6.30069*lnkd + (T)1.13754*lnkd2 - (T)1.38393*lnkd3 - (T)0.0134758*lnkd4 + (T)0.331686*lnkd5 - (T)0.105954*lnkd6;
 
-  }else if(k>0.1){
+  }else if(k>0.4){
     //exact
 
     T sk = sqrt_gpu(k);
