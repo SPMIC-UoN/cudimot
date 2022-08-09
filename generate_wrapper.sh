@@ -1,6 +1,7 @@
 #!/bin/bash
 
 MODELNAME=$1
+SRCDIR=`dirname "$0"`
 
 # Generate Wrapper
 scriptFile=cudimot_${MODELNAME}.sh
@@ -12,5 +13,5 @@ echo "#" >> $scriptFile
 echo "" >> $scriptFile
 
 echo "modelname=${MODELNAME}" >> $scriptFile
-cat wrapper_template.sh >> $scriptFile
+cat ${SRCDIR}/wrapper_template.sh >> $scriptFile
 chmod 755 $scriptFile

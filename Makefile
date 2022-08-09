@@ -87,7 +87,7 @@ cudimot_${MODELNAME}.sh : ${MODELNAME}
 	./generate_wrapper.sh ${MODELNAME}
 
 ${MODELNAME}.info : cudimot_${MODELNAME}.sh
-	./generate_info.sh ${MODELNAME}
+	./generate_info.sh ${MODELNAME} ${MODELDIR}
 
 ${MODELNAME}_priors:
 	cp ${MODELDIR}/modelpriors $@
