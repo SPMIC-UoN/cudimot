@@ -171,7 +171,7 @@ MACRO void WatsonSHCoeff(T k, T* coeff)
     coeff[6] = coeff[6]*ierfik;
     
   }else{
-    // K<=0.1 approx
+    // K<=0.4 approx
     
     T k2 = k*k;
     T k3 = k2*k;
