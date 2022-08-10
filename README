@@ -1,0 +1,15 @@
+Building CUDIMOT
+----------------
+
+The default makefile is designed for FSL 6.0.6+
+
+An alternative makefile for earlier versions (tested on FSL 6.0.5) is Makefile.605
+
+To use this makefile you will need to copy it to the name Makefile - it will not work otherwise!
+
+Then do:
+
+modelname=NODDI_Bingham make 
+
+(substituting whichever model you want to build)
+
