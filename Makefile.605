@@ -39,7 +39,7 @@ SM_60 = -gencode arch=compute_60,code=sm_60
 SM_61 = -gencode arch=compute_61,code=sm_61
 SM_70 = -gencode arch=compute_70,code=sm_70
 SM_72 = -gencode arch=compute_72,code=sm_72
-SM_75 = -gencode arch=compute_75,code=sm_75
+#SM_75 = -gencode arch=compute_75,code=sm_75
 #SM_80 = -gencode arch=compute_80,code=sm_80
 #SM_86 = -gencode arch=compute_86,code=sm_86
 
@@ -77,7 +77,7 @@ SGEBEDPOST = bedpost
 SGEBEDPOSTX = bedpostx bedpostx_postproc.sh bedpostx_preproc.sh bedpostx_single_slice.sh bedpostx_datacheck
 
 SCRIPTS = ${modelname}@info ${MODELPATH}/Pipeline_${modelname}.sh ${MODELPATH}/${modelname}_finish.sh utils/Run_dtifit.sh utils/jobs_wrapper.sh utils/initialise_Bingham.sh
-FILES = cart2spherical getFanningOrientation initialise_Psi split_parts_${modelname} ${modelname} merge_parts_${modelname} testFunctions_${modelname}
+FILES = cart2spherical getFanningOrientation initialise_Psi split_parts_${modelname} ${modelname} merge_parts_${modelname} testFunctions_${modelname} cudimot_$(modelname).sh $(modelname)_priors $(modelname).info
 XFILES=$(addprefix $(DIR_objs)/, $(FILES))
 
 cleanall:
@@ -95,7 +95,7 @@ makedir:
 	mkdir -p $(FSLDEVDIR)/bin
 	mkdir -p $(DIR_objs)
 
-all: makedir ${XFILES}
+all: makedir ${XFILES} ${DATAFILES}
 
 $(DIR_objs)/cart2spherical: 
 	${CXX} -o $@ utils/cart2spherical.cc ${CXXFLAGS} ${LDFLAGS} ${DLIBS} 
@@ -155,4 +155,15 @@ ${CUDIMOT}:	${CUDIMOT_OBJS}
 
 $(DIR_objs)/testFunctions_${modelname}: 
 	$(NVCC) $(GPU_CARDs) -I$(MODELPATH) -O3 $(MAX_REGISTERS) $(MODELPATH)/modelparameters.cc testFunctions.cu -o $(DIR_objs)/testFunctions_${modelname} $(CUDA_INC)
+
+$(DIR_objs)/cudimot_${modelname}.sh : $(DIR_objs)/${modelname}
+	./generate_wrapper.sh ${modelname}
+	mv cudimot_${modelname}.sh $(DIR_objs)
+
+$(DIR_objs)/${modelname}.info : $(DIR_objs)/cudimot_${modelname}.sh
+	./generate_info.sh ${modelname} ${MODELPATH}
+	mv ${modelname}.info $(DIR_objs)
+
+$(DIR_objs)/${modelname}_priors:
+	cp ${MODELPATH}/modelpriors $@
 
