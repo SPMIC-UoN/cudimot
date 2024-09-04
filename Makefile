@@ -39,13 +39,13 @@ SM_60 = -gencode arch=compute_60,code=sm_60
 SM_61 = -gencode arch=compute_61,code=sm_61
 SM_70 = -gencode arch=compute_70,code=sm_70
 SM_72 = -gencode arch=compute_72,code=sm_72
-#SM_75 = -gencode arch=compute_75,code=sm_75
-#SM_80 = -gencode arch=compute_80,code=sm_80
-#SM_86 = -gencode arch=compute_86,code=sm_86
+SM_75 = -gencode arch=compute_75,code=sm_75
+SM_80 = -gencode arch=compute_80,code=sm_80
+SM_86 = -gencode arch=compute_86,code=sm_86
 
-#for Realease
-GPU_CARDs = $(SM_37) $(SM_50) $(SM_52) $(SM_60) $(SM_61) $(SM_70) $(SM_72) $(SM_75) $(SM_80) $(SM_86)
-#${SM_35} $(SM_60) $(SM_61)
+# For Release build with all compute capability supported by Cuda SDK 12
+# MAY BE EDITED WHEN BUILDING AGAINST SPECIFIC VERSIONS OF CUDA SDK
+GPU_CARDs = $(SM_50) $(SM_52) $(SM_60) $(SM_61) $(SM_70) $(SM_72) $(SM_75) $(SM_80) $(SM_86)
 
 #for FMRIB
 #GPU_CARDs = $(SM_37) $(SM_35)
@@ -77,7 +77,7 @@ SGEBEDPOST = bedpost
 SGEBEDPOSTX = bedpostx bedpostx_postproc.sh bedpostx_preproc.sh bedpostx_single_slice.sh bedpostx_datacheck
 
 SCRIPTS = ${modelname}@info ${MODELPATH}/Pipeline_${modelname}.sh ${MODELPATH}/${modelname}_finish.sh utils/Run_dtifit.sh utils/jobs_wrapper.sh utils/initialise_Bingham.sh
-FILES = cart2spherical getFanningOrientation initialise_Psi split_parts_${modelname} ${modelname} merge_parts_${modelname} testFunctions_${modelname} cudimot_$(modelname).sh $(modelname)_priors $(modelname).info
+FILES = cart2spherical getFanningOrientation initialise_Psi split_parts_${modelname} ${modelname} merge_parts_${modelname} testFunctions_${modelname} cudimot_${modelname}.sh ${modelname}_priors $(modelname).info
 XFILES=$(addprefix $(DIR_objs)/, $(FILES))
 
 cleanall:
@@ -151,7 +151,6 @@ $(DIR_objs)/cudimot.o:
 
 ${CUDIMOT}:	${CUDIMOT_OBJS}
 		${CXX} ${CXXFLAGS} ${LDFLAGS} -o $(DIR_objs)/${modelname} ${CUDIMOT_OBJS} $(CUDIMOT_CUDA_OBJS) ${DLIBS} -lopenblas -lcudart -L${CUDA}/lib64 -L${CUDA}/lib
-		./generate_wrapper.sh
 
 $(DIR_objs)/testFunctions_${modelname}: 
 	$(NVCC) $(GPU_CARDs) -I$(MODELPATH) -O3 $(MAX_REGISTERS) $(MODELPATH)/modelparameters.cc testFunctions.cu -o $(DIR_objs)/testFunctions_${modelname} $(CUDA_INC)
