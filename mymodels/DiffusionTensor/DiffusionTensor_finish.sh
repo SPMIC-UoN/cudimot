@@ -4,8 +4,6 @@
 #
 #   Copyright (C) 2004 University of Oxford
 #
-#   SHCOPYRIGHT
-
 # Script to generate FA, MD, V1, L1, etc...
 Usage() {
     echo ""

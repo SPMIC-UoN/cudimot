@@ -4,7 +4,6 @@
 #
 #   Copyright (C) 2004 University of Oxford
 #
-#   SHCOPYRIGHT
 
 bindir=${CUDIMOT}/bin
 

@@ -399,8 +399,6 @@ PIPELINE_SCRIPT = """\
 #
 #   Copyright (C) 2004 University of Oxford
 #
-#   SHCOPYRIGHT
-#
 # Pipeline for fitting NODDI-Watson 
 
 if [ -z "${CUDIMOT}" ]; then
@@ -664,8 +662,6 @@ FINISH_SCRIPT = """\
 #   Moises Hernandez-Fernandez - FMRIB Image Analysis Group
 #
 #   Copyright (C) 2004 University of Oxford
-#
-#   SHCOPYRIGHT
 
 Usage() {
     echo ""

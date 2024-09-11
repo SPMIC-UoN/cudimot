@@ -3,8 +3,6 @@
 #   Moises Hernandez-Fernandez - FMRIB Image Analysis Group
 #
 #   Copyright (C) 2004 University of Oxford
-#
-#   SHCOPYRIGHT
 
 bindir=${CUDIMOT}/bin
 

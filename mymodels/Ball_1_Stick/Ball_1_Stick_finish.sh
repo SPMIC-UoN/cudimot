@@ -4,8 +4,6 @@
 #
 #   Copyright (C) 2004 University of Oxford
 #
-#   SHCOPYRIGHT
-
 Usage() {
     echo ""
     echo "Usage: Ball_1_Stick_finish.sh <subject_directory>"

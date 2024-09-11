@@ -4,8 +4,6 @@
 #
 #   Copyright (C) 2004 University of Oxford
 #
-#   SHCOPYRIGHT
-#
 # Pipeline for fitting NODDI-Watson exvivo
 
 if [ "x$CUDIMOT" == "x" ]; then
