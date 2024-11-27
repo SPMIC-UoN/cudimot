@@ -63,7 +63,7 @@ class OptionComponent():
             raise OptionError("%s - failed to load file - is this a valid image file?" % label)
 
         try:
-            return nii.get_data().shape
+            return nii.get_fdata().shape
         except:
             raise OptionError("%s - failed to read data shape - check image file is not corrupted")
 
