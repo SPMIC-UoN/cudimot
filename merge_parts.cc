@@ -6,7 +6,7 @@
 
 #include <sys/stat.h>
 #include "boost/filesystem.hpp"
-#include "newmat.h"
+#include "armawrap/newmat.h"
 #include "newimage/newimageall.h"
 #include "cudimotoptions.h"
 #include "dMRI_Data.h"

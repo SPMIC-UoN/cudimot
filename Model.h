@@ -20,7 +20,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include "newmat.h"
+#include "armawrap/newmat.h"
 #include "newimage/newimageall.h"
 #include "checkcudacalls.h"
 #include "cudimotoptions.h"

@@ -18,7 +18,7 @@
  */
 
 #include <vector>
-#include "newmat.h"
+#include "armawrap/newmat.h"
 #include "newimage/newimageall.h"
 #include "checkcudacalls.h"
 #include "gridOptions.h"
