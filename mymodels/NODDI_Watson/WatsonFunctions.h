@@ -191,6 +191,12 @@ MACRO void WatsonSHCoeff(T k, T* coeff)
         coeff[n] = exact_prop*coeff[n];
       }
     }
+    else {
+      for (int n=1;n<=6;n++) {
+        coeff[n] = 0;
+      }
+    }
+
     if (series_prop > 0) {
       //approx series expansion
       T k2 = k*k;
@@ -200,20 +206,12 @@ MACRO void WatsonSHCoeff(T k, T* coeff)
       T k6 = k5*k;
       //T k7 = k6*k;
       
-      coeff[1] = (T)4.0/(T)3.0*k + (T)8.0/(T)63.0*k2;
-      coeff[1] = coeff[1]*sqrt_gpu((T)MPI/(T)5.0);
-      coeff[2] = (T)8.0/(T)21.0*k2 + (T)32.0/(T)693.0*k3;
-      coeff[2] = coeff[2]*(sqrt_gpu((T)MPI)*(T)0.2);
-      coeff[3] = (T)16.0/(T)693.0*k3 + (T)32.0/(T)10395.0*k4;
-      coeff[3] = coeff[3]*sqrt_gpu((T)MPI/(T)13.0);
-      coeff[4] = (T)32.0/(T)19305.0*k4;
-      coeff[4] = coeff[4]*sqrt_gpu((T)MPI/(T)17.0);
-      coeff[5] = (T)64.0*sqrt_gpu((T)MPI/(T)21.0)*k5/(T)692835.0;
-      coeff[6] = (T)128.0*sqrt_gpu((T)MPI)*k6/(T)152108775.0;
-
-      for (int n=1;n<=6;n++) {
-        coeff[n] = coeff[n] + series_prop*coeff[n];
-      }
+      coeff[1] += ((T)4.0/(T)3.0*k + (T)8.0/(T)63.0*k2)*sqrt_gpu((T)MPI/(T)5.0)*series_prop;
+      coeff[2] += ((T)8.0/(T)21.0*k2 + (T)32.0/(T)693.0*k3)*(sqrt_gpu((T)MPI)*(T)0.2)*series_prop;
+      coeff[3] += ((T)16.0/(T)693.0*k3 + (T)32.0/(T)10395.0*k4)*sqrt_gpu((T)MPI/(T)13.0)*series_prop;
+      coeff[4] += (T)32.0/(T)19305.0*k4*sqrt_gpu((T)MPI/(T)17.0)*series_prop;
+      coeff[5] += (T)64.0*sqrt_gpu((T)MPI/(T)21.0)*k5/(T)692835.0*series_prop;
+      coeff[6] += (T)128.0*sqrt_gpu((T)MPI)*k6/(T)152108775.0*series_prop;
     }
   }
 }
