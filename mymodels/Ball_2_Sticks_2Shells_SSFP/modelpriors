@@ -1,0 +1,18 @@
+// Default Initialization (only used if user does not provide volumes)
+P_init[0.001,0.001,0.6,1.5,1.5,0.2,1.5,1.5,100000]
+
+// Priors:
+bounds[0]=(1e-9,0.01)
+bounds[1]=(1e-9,0.01)
+bounds[2]=(0,1)
+bounds[3]=(-100,100)
+bounds[4]=(-100,100)
+bounds[5]=(0,1)
+bounds[6]=(-100,100)
+bounds[7]=(-100,100)
+bounds[8]=(0,)
+
+prior[3]=sin()
+prior[5]=ARD(1)
+prior[6]=sin()
+
