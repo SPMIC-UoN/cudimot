@@ -1,0 +1,14 @@
+// For initialization
+P_init[0.002,0.001,0.0005,0.1,0.1,0.1,100000]
+
+// Priors:
+bounds[0]=(0.0,0.01)
+bounds[1]=(0.0,0.01)
+bounds[2]=(0.0,0.01)
+bounds[3]=(-100,100)
+bounds[4]=(-100,100)
+bounds[5]=(-100,100)
+bounds[6]=(0,)
+
+
+prior[3]=sin()

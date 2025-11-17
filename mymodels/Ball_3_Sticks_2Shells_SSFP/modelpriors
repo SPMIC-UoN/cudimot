@@ -1,0 +1,37 @@
+// Default Initialization (only used if user does not provide volumes)
+// d1, d2, f1, th1, ph1, f2, th2, ph2, f3, th3, ph3, S0
+P_init[0.001,0.001,0.6,1.5,1.5,0.2,1.5,1.5,0.1,1.5,1.5,100000]
+
+// Priors:
+bounds[0]=(1e-9,0.01)
+bounds[1]=(1e-9,0.01)
+bounds[2]=(0,1)
+bounds[3]=(-100,100)
+bounds[4]=(-100,100)
+bounds[5]=(0,1)
+bounds[6]=(-100,100)
+bounds[7]=(-100,100)
+bounds[8]=(0,1) // 3rd fibre added
+bounds[9]=(-100,100) // 3rd fibre added
+bounds[10]=(-100,100) // 3rd fibre added
+bounds[11]=(0,)
+
+prior[3]=sin()
+prior[5]=ARD(1)
+prior[6]=sin()
+prior[8]=ARD(1) // 3rd fibre added 
+prior[9]=sin() // 3rd fibre added
+
+
+// d1  P[0]
+// d2  P[1]
+// f1  P[2]
+// th1 P[3]
+// ph1 P[4]
+// f2  P[5]
+// th2 P[6]
+// ph2 P[7]
+// f3  P[8]
+// th3 P[9]
+// ph3 P[10]
+// S0  P[11]
